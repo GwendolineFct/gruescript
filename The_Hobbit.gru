@@ -1,0 +1,27 @@
+# '#' means this line (or the rest of this line) is a comment
+# (if you want to output '#' during your game, use "&num;")
+game The Hobbit # Game title
+id CLOD # game ID (used to identify cookies; should be unique on your site)
+author Philip Mitchell, Veronika Megler et al, adapted to Gruescript by Gwendoline Fichant
+version 0.0.1
+person 2 # 2nd person, i.e. "You are in..."
+examine off # if 'on', the verb 'examine' will be implemented by clicking nouns
+status { $Room } | { $cloaked } # '|' divides left and right ends of status bar
+
+
+
+room hobbit_hole You are in a comfortble tunnel like gall with a perfectly round green door like a porthole.
+tags start # the player starts here
+image img/hobbit_hole.png
+east lonelands
+
+room lonelands You are in a gloomy empty land with dreary hills ahead, rising higher and higher, dark with trees.
+image img/lonelands.png
+west hobbit_hole
+north trolls_clearing
+
+room trolls_clearing You are in a small clearing half hidden amongst trees.
+image img/trolls_clearing.png
+south trolls_clearing
+
+
