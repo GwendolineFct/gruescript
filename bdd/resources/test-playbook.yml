@@ -1,0 +1,38 @@
+
+
+---
+
+
+  # this is a test playbook to check things get migrated correctly
+  - hosts: servers
+    vars:
+      myvar: 'Foo bar'
+      anothervar: "spam & eggs"   # what about a shruberry ?
+      longtext: |
+        We can have multiple
+        lines strings in YAML
+        by doing so
+    pre_tasks:
+      - name: My first pre task
+        obsolete:
+          param1: I don't exist, what can I do ?
+        when: false
+      # don't forget to comment your code
+      - name: another pre task
+        freeform: Oh, freedom (freedom), freedom (freedom)
+        become: true
+
+        # else it's hard to understand
+    role:
+      - {role: test}
+    tasks:
+      - name: a simple task
+        realfacts:
+    post_tasks:
+      - name: My first post task
+        breaking:
+          param2: Don't go breaking my heart
+      - name: another post task
+        registration:
+        register: somevar
+  # This is the end my friend

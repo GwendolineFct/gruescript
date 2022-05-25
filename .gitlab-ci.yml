@@ -1,0 +1,16 @@
+stages:
+  - test
+
+test:
+  image: docker.devtools.local/ci/ansible-py3
+  stage: test
+  allow_failure: false
+  variables:
+    CLICOLOR_FORCE: 1
+    PY_COLORS: 1
+  script:
+    - pip3 install behave -qq
+    # hack to force behave to output in color in CI
+    - export sed_cmd=$(echo -e "s/isatty = getattr/isatty = lambda\072 True \043'/g")
+    - sed -i "$sed_cmd" ~/.local/lib/python3.9/site-packages/behave/formatter/pretty.py
+    - ~/.local/bin/behave --color --quiet --no-multiline bdd

@@ -1,0 +1,105 @@
+---
+modules:
+  - name: vault_delete
+    fqcn: beys.vault.vault_delete
+    collection: beys.vault
+    params_source: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }
+      - { name: "url", type: "string" }
+    return_source: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secret, type: string }
+    params_target: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }
+      - { name: "url", type: "string" }
+    return_target: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secret, type: string }
+
+  - name: vault_list
+    fqcn: beys.vault.vault_list
+    collection: beys.vault
+    params_source: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "url", type: "string" }
+    return_source: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secrets, type: list(raw) }
+    params_target: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "url", type: "string" }
+    return_target: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secrets, type: list(raw) }
+
+  - name: vault_move
+    fqcn: beys.vault.vault_move
+    collection: beys.vault
+    params_source: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "data", type: "dictionary", required: true }
+      - { name: "push_mode", type: "string", default: "append", choices: ["append", "replace"]  }
+      - { name: "url", type: "string" }
+    params_target: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "secret_path", type: "string", required: true }
+      - { name: "data", type: "dictionary", required: true }
+      - { name: "push_mode", type: "string", default: "append", choices: ["append", "replace"]  }
+      - { name: "url", type: "string" }
+
+  - name: vault_push
+    fqcn: beys.vault.vault_push
+    collection: beys.vault
+    params_source: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "origin_path", type: "string", required: true }
+      - { name: "new_path", type: "string", required: true }
+      - { name: "push_mode", type: "string", default: "append", choices: ["append", "replace"]  }
+      - { name: "url", type: "string" }
+    return_source: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secret, type: string }
+          - { name: data, type: dictionary }
+    params_target: 
+      - { name: "token", type: "string", required: true }
+      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+      - { name: "origin_path", type: "string", required: true }
+      - { name: "new_path", type: "string", required: true }
+      - { name: "push_mode", type: "string", default: "append", choices: ["append", "replace"]  }
+      - { name: "url", type: "string" }
+    return_target: 
+      - name: "secret"
+        type: "dictionary"
+        params:
+          - { name: engine, type: string }
+          - { name: secret, type: string }
+          - { name: data, type: dictionary }

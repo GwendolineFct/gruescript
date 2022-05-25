@@ -1,0 +1,355 @@
+---
+modules:
+  - name: win_acl
+    fqcn: ansible.windows.win_acl
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "inherit", type: "string", choices: ["ContainerInherit", "ObjectInherit"] }, { name: "path", required: true, type: "string" }, { name: "propagation", type: "string", default: "None", choices: ["InheritOnly", "NoPropagateInherit", "None"] }, { name: "rights", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "type", required: true, type: "string", choices: ["allow", "deny"] }, { name: "user", required: true, type: "string" } ]
+    params_target: [ { name: "inherit", type: "string", choices: ["ContainerInherit", "ObjectInherit"] }, { name: "path", required: true, type: "string" }, { name: "propagation", type: "string", default: "None", choices: ["InheritOnly", "NoPropagateInherit", "None"] }, { name: "rights", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "type", required: true, type: "string", choices: ["allow", "deny"] }, { name: "user", required: true, type: "string" } ]
+
+  - name: win_acl_inheritance
+    fqcn: ansible.windows.win_acl_inheritance
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "path", required: true, type: "path" }, { name: "reorganize", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "state", type: "string", default: "absent", choices: ["absent", "present"] } ]
+    params_target: [ { name: "path", required: true, type: "path" }, { name: "reorganize", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "state", type: "string", default: "absent", choices: ["absent", "present"] } ]
+
+  - name: win_certificate_store
+    fqcn: ansible.windows.win_certificate_store
+    collection: ansible.windows
+    params_source: [ { name: "file_type", type: "string", default: "der", choices: ["der", "pem", "pkcs12"] }, { name: "key_exportable", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "key_storage", type: "string", default: "default", choices: ["default", "machine", "user"] }, { name: "password", type: "string" }, { name: "path", type: "path" }, { name: "state", type: "string", default: "present", choices: ["absent", "exported", "present"] }, { name: "store_location", type: "raw", default: "LocalMachine", choices: ["CurrentUser", "LocalMachine"] }, { name: "store_name", type: "string", default: "My", choices: ["AddressBook", "AuthRoot", "CertificateAuthority", "Disallowed", "My", "Root", "TrustedPeople", "TrustedPublisher"] }, { name: "thumbprint", type: "string" } ]
+    return_source: [ { name: "thumbprints", type: "list(raw)" } ]
+    params_target: [ { name: "file_type", type: "string", default: "der", choices: ["der", "pem", "pkcs12"] }, { name: "key_exportable", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "key_storage", type: "string", default: "default", choices: ["default", "machine", "user"] }, { name: "password", type: "string" }, { name: "path", type: "path" }, { name: "state", type: "string", default: "present", choices: ["absent", "exported", "present"] }, { name: "store_location", type: "string", default: "LocalMachine" }, { name: "store_name", type: "string", default: "My" }, { name: "store_type", type: "string", default: "system", choices: ["service", "system"] }, { name: "thumbprint", type: "string" } ]
+    return_target: [ { name: "thumbprints", type: "list(string)" } ]
+
+  - name: win_command
+    fqcn: ansible.windows.win_command
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "chdir", type: "path" }, { name: "creates", type: "path" }, { name: "free_form", required: true, type: "string" }, { name: "removes", type: "path" }, { name: "stdin", type: "string" } ]
+    return_source: [ { name: "cmd", type: "string" }, { name: "delta", type: "string" }, { name: "end", type: "string" }, { name: "msg", type: "boolean" }, { name: "rc", type: "integer" }, { name: "start", type: "string" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(raw)" } ]
+    params_target: [ { name: "chdir", type: "path" }, { name: "creates", type: "path" }, { name: "free_form", required: true, type: "string" }, { name: "output_encoding_override", type: "string" }, { name: "removes", type: "path" }, { name: "stdin", type: "string" } ]
+    return_target: [ { name: "cmd", type: "string" }, { name: "delta", type: "string" }, { name: "end", type: "string" }, { name: "msg", type: "boolean" }, { name: "rc", type: "integer" }, { name: "start", type: "string" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+
+  - name: win_copy
+    fqcn: ansible.windows.win_copy
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "content", type: "string" }, { name: "decrypt", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "dest", required: true, type: "path" }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "local_follow", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "remote_src", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "src", type: "path" } ]
+    return_source: [ { name: "backup_file", type: "string" }, { name: "checksum", type: "string" }, { name: "dest", type: "string" }, { name: "operation", type: "string" }, { name: "original_basename", type: "string" }, { name: "size", type: "integer" }, { name: "src", type: "string" } ]
+    params_target: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "content", type: "string" }, { name: "decrypt", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "dest", required: true, type: "path" }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "local_follow", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "remote_src", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "src", type: "path" } ]
+    return_target: [ { name: "backup_file", type: "string" }, { name: "checksum", type: "string" }, { name: "dest", type: "string" }, { name: "operation", type: "string" }, { name: "original_basename", type: "string" }, { name: "size", type: "integer" }, { name: "src", type: "string" } ]
+
+  - name: win_dns_client
+    fqcn: ansible.windows.win_dns_client
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "adapter_names", required: true, type: "string" }, { name: "ipv4_addresses", required: true, type: "string" } ]
+    params_target: [ { name: "adapter_names", required: true, type: "list(string)" }, { name: "dns_servers", aliases: ["ipv4_addresses", "ip_addresses", "addresses"], required: true, type: "list(string)" } ]
+
+  - name: win_domain
+    fqcn: ansible.windows.win_domain
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "create_dns_delegation", type: "boolean", choices: ["no", "yes"] }, { name: "database_path", type: "path" }, { name: "dns_domain_name", required: true, type: "string" }, { name: "domain_mode", type: "string", choices: ["Win2003", "Win2008", "Win2008R2", "Win2012", "Win2012R2", "WinThreshold"] }, { name: "domain_netbios_name", type: "string" }, { name: "forest_mode", type: "string", choices: ["Win2003", "Win2008", "Win2008R2", "Win2012", "Win2012R2", "WinThreshold"] }, { name: "safe_mode_password", required: true, type: "string" }, { name: "sysvol_path", type: "path" } ]
+    return_source: [ { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "create_dns_delegation", type: "boolean", choices: ["no", "yes"] }, { name: "database_path", type: "path" }, { name: "dns_domain_name", required: true, type: "string" }, { name: "domain_mode", type: "string", choices: ["Win2003", "Win2008", "Win2008R2", "Win2012", "Win2012R2", "WinThreshold"] }, { name: "domain_netbios_name", type: "string" }, { name: "forest_mode", type: "string", choices: ["Win2003", "Win2008", "Win2008R2", "Win2012", "Win2012R2", "WinThreshold"] }, { name: "install_dns", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "log_path", type: "path" }, { name: "safe_mode_password", required: true, type: "string" }, { name: "sysvol_path", type: "path" } ]
+    return_target: [ { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_domain_controller
+    fqcn: ansible.windows.win_domain_controller
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "database_path", type: "path" }, { name: "dns_domain_name", type: "string" }, { name: "domain_admin_password", required: true, type: "string" }, { name: "domain_admin_user", required: true, type: "string" }, { name: "local_admin_password", type: "string" }, { name: "read_only", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "safe_mode_password", type: "string" }, { name: "site_name", type: "string" }, { name: "state", type: "string", choices: ["domain_controller", "member_server"] }, { name: "sysvol_path", type: "path" } ]
+    return_source: [ { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "database_path", type: "path" }, { name: "dns_domain_name", type: "string" }, { name: "domain_admin_password", required: true, type: "string" }, { name: "domain_admin_user", required: true, type: "string" }, { name: "domain_log_path", type: "path" }, { name: "install_dns", type: "boolean", choices: ["no", "yes"] }, { name: "install_media_path", type: "path" }, { name: "local_admin_password", type: "string" }, { name: "log_path", type: "string" }, { name: "read_only", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "safe_mode_password", type: "string" }, { name: "site_name", type: "string" }, { name: "state", required: true, type: "string", choices: ["domain_controller", "member_server"] }, { name: "sysvol_path", type: "path" } ]
+    return_target: [ { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_domain_membership
+    fqcn: ansible.windows.win_domain_membership
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "dns_domain_name", type: "string" }, { name: "domain_admin_password", type: "string" }, { name: "domain_admin_user", required: true, type: "string" }, { name: "domain_ou_path", type: "string" }, { name: "hostname", type: "string" }, { name: "state", type: "string", choices: ["domain", "workgroup"] }, { name: "workgroup_name", type: "string" } ]
+    return_source: [ { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "dns_domain_name", type: "string" }, { name: "domain_admin_password", type: "string" }, { name: "domain_admin_user", required: true, type: "string" }, { name: "domain_ou_path", type: "string" }, { name: "hostname", type: "string" }, { name: "state", type: "string", choices: ["domain", "workgroup"] }, { name: "workgroup_name", type: "string" } ]
+    return_target: [ { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_dsc
+    fqcn: ansible.windows.win_dsc
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "free_form", required: true, type: "string" }, { name: "module_version", type: "string", default: "latest" }, { name: "resource_name", required: true, type: "string" } ]
+    return_source: [ { name: "module_version", type: "string" }, { name: "reboot_required", type: "boolean" }, { name: "verbose_set", type: "list(raw)" }, { name: "verbose_test", type: "list(raw)" } ]
+    params_target: [ { name: "free_form", required: true, type: "string" }, { name: "module_version", type: "string", default: "latest" }, { name: "resource_name", required: true, type: "string" } ]
+    return_target: [ { name: "module_version", type: "string" }, { name: "reboot_required", type: "boolean" }, { name: "verbose_set", type: "list(string)" }, { name: "verbose_test", type: "list(string)" } ]
+
+  - name: win_environment
+    fqcn: ansible.windows.win_environment
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "level", required: true, type: "string", choices: ["machine", "process", "user"] }, { name: "name", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "value", type: "string" } ]
+    return_source: [ { name: "before_value", type: "string" }, { name: "value", type: "string" } ]
+    params_target: [ { name: "level", required: true, type: "string", choices: ["machine", "process", "user"] }, { name: "name", type: "string" }, { name: "state", type: "string", choices: ["absent", "present"] }, { name: "value", type: "string" }, { name: "variables", type: "dictionary" } ]
+    return_target: [ { name: "before_value", type: "string" }, { name: "value", type: "string" }, { name: "values", type: "dictionary" } ]
+
+  - name: win_feature
+    fqcn: ansible.windows.win_feature
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "include_management_tools", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "include_sub_features", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "list(raw)" }, { name: "source", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "exitcode", type: "string" }, { name: "feature_result", type: "complex", params: [ { name: "display_name", type: "string" }, { name: "id", type: "integer" }, { name: "message", type: "list(string)" }, { name: "reboot_required", type: "boolean" }, { name: "restart_needed", type: "boolean" }, { name: "skip_reason", type: "string" }, { name: "success", type: "boolean" } ] }, { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "include_management_tools", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "include_sub_features", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "list(string)" }, { name: "source", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "exitcode", type: "string" }, { name: "feature_result", type: "complex", params: [ { name: "display_name", type: "string" }, { name: "id", type: "integer" }, { name: "message", type: "list(string)" }, { name: "reboot_required", type: "boolean" }, { name: "restart_needed", type: "boolean" }, { name: "skip_reason", type: "string" }, { name: "success", type: "boolean" } ] }, { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_file
+    fqcn: ansible.windows.win_file
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "path", aliases: ["dest", "name"], required: true, type: "path" }, { name: "state", type: "string", choices: ["absent", "directory", "file", "touch"] } ]
+    params_target: [ { name: "path", aliases: ["dest", "name"], required: true, type: "path" }, { name: "state", type: "string", choices: ["absent", "directory", "file", "touch"] } ]
+
+  - name: win_find
+    fqcn: ansible.windows.win_find
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "age", type: "string" }, { name: "age_stamp", type: "string", default: "mtime", choices: ["atime", "ctime", "mtime"] }, { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "file_type", type: "string", default: "file", choices: ["directory", "file"] }, { name: "follow", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "get_checksum", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "hidden", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "paths", required: true, type: "list(raw)" }, { name: "patterns", aliases: ["regex", "regexp"], type: "list(raw)" }, { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "size", type: "string" }, { name: "use_regex", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_source: [ { name: "examined", type: "integer" }, { name: "files", type: "complex", params: [ { name: "attributes", type: "string" }, { name: "checksum", type: "string" }, { name: "creationtime", type: "float" }, { name: "extension", type: "string" }, { name: "filename", type: "string" }, { name: "isarchive", type: "boolean" }, { name: "isdir", type: "boolean" }, { name: "ishidden", type: "boolean" }, { name: "islnk", type: "boolean" }, { name: "isreadonly", type: "boolean" }, { name: "isshared", type: "boolean" }, { name: "lastaccesstime", type: "float" }, { name: "lastwritetime", type: "float" }, { name: "lnk_source", type: "string" }, { name: "owner", type: "string" }, { name: "path", type: "string" }, { name: "sharename", type: "string" }, { name: "size", type: "integer" } ] }, { name: "matched", type: "integer" } ]
+    params_target: [ { name: "age", type: "string" }, { name: "age_stamp", type: "string", default: "mtime", choices: ["atime", "ctime", "mtime"] }, { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "file_type", type: "string", default: "file", choices: ["directory", "file"] }, { name: "follow", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "get_checksum", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "hidden", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "paths", required: true, type: "list(string)" }, { name: "patterns", aliases: ["regex", "regexp"], type: "list(string)" }, { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "size", type: "string" }, { name: "use_regex", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_target: [ { name: "examined", type: "integer" }, { name: "files", type: "complex", params: [ { name: "attributes", type: "string" }, { name: "checksum", type: "string" }, { name: "creationtime", type: "float" }, { name: "exists", type: "boolean" }, { name: "extension", type: "string" }, { name: "filename", type: "string" }, { name: "hlnk_targets", type: "list(string)" }, { name: "isarchive", type: "boolean" }, { name: "isdir", type: "boolean" }, { name: "ishidden", type: "boolean" }, { name: "isjunction", type: "boolean" }, { name: "islnk", type: "boolean" }, { name: "isreadonly", type: "boolean" }, { name: "isreg", type: "boolean" }, { name: "isshared", type: "boolean" }, { name: "lastaccesstime", type: "float" }, { name: "lastwritetime", type: "float" }, { name: "lnk_source", type: "string" }, { name: "lnk_target", type: "string" }, { name: "nlink", type: "integer" }, { name: "owner", type: "string" }, { name: "path", type: "string" }, { name: "sharename", type: "string" }, { name: "size", type: "integer" } ] }, { name: "matched", type: "integer" } ]
+
+  - name: win_get_url
+    fqcn: ansible.windows.win_get_url
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "checksum", type: "string" }, { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "checksum_url", type: "string" }, { name: "client_cert", type: "string" }, { name: "client_cert_password", type: "string" }, { name: "dest", required: true, type: "path" }, { name: "follow_redirects", type: "string", default: "safe", choices: ["all", "none", "safe"] }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "force_basic_auth", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "headers", type: "dictionary" }, { name: "http_agent", type: "string", default: "ansible-httpget" }, { name: "maximum_redirection", type: "integer", default: 50 }, { name: "method", type: "string" }, { name: "proxy_password", type: "string" }, { name: "proxy_url", type: "string" }, { name: "proxy_use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "proxy_username", type: "string" }, { name: "timeout", type: "integer", default: 30 }, { name: "url", required: true, type: "string" }, { name: "url_password", aliases: ["password"], type: "string" }, { name: "url_username", aliases: ["user", "username"], type: "string" }, { name: "use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "use_proxy", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] } ]
+    return_source: [ { name: "checksum_dest", type: "string" }, { name: "checksum_src", type: "string" }, { name: "dest", type: "string" }, { name: "elapsed", type: "float" }, { name: "msg", type: "string" }, { name: "size", type: "integer" }, { name: "status_code", type: "integer" }, { name: "url", type: "string" } ]
+    params_target: [ { name: "checksum", type: "string" }, { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "checksum_url", type: "string" }, { name: "client_cert", type: "string" }, { name: "client_cert_password", type: "string" }, { name: "dest", required: true, type: "path" }, { name: "follow_redirects", type: "string", default: "safe", choices: ["all", "none", "safe"] }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "force_basic_auth", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "headers", type: "dictionary" }, { name: "http_agent", type: "string", default: "ansible-httpget" }, { name: "maximum_redirection", type: "integer", default: 50 }, { name: "proxy_password", type: "string" }, { name: "proxy_url", type: "string" }, { name: "proxy_use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "proxy_username", type: "string" }, { name: "url", required: true, type: "string" }, { name: "url_method", aliases: ["method"], type: "string" }, { name: "url_password", aliases: ["password"], type: "string" }, { name: "url_timeout", aliases: ["timeout"], type: "integer", default: 30 }, { name: "url_username", aliases: ["user", "username"], type: "string" }, { name: "use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "use_proxy", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] } ]
+    return_target: [ { name: "checksum_dest", type: "string" }, { name: "checksum_src", type: "string" }, { name: "dest", type: "string" }, { name: "elapsed", type: "float" }, { name: "msg", type: "string" }, { name: "size", type: "integer" }, { name: "status_code", type: "integer" }, { name: "url", type: "string" } ]
+
+  - name: win_group
+    fqcn: ansible.windows.win_group
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "description", type: "string" }, { name: "name", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    params_target: [ { name: "description", type: "string" }, { name: "name", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+
+  - name: win_group_membership
+    fqcn: ansible.windows.win_group_membership
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "members", required: true, type: "list(raw)" }, { name: "name", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present", "pure"] } ]
+    return_source: [ { name: "added", type: "list(raw)" }, { name: "members", type: "list(raw)" }, { name: "name", type: "string" }, { name: "removed", type: "list(raw)" } ]
+    params_target: [ { name: "members", required: true, type: "list(string)" }, { name: "name", required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present", "pure"] } ]
+    return_target: [ { name: "added", type: "list(string)" }, { name: "members", type: "list(string)" }, { name: "name", type: "string" }, { name: "removed", type: "list(string)" } ]
+
+  - name: win_hostname
+    fqcn: ansible.windows.win_hostname
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "name", required: true, type: "string" } ]
+    return_source: [ { name: "old_name", type: "string" }, { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "name", required: true, type: "string" } ]
+    return_target: [ { name: "old_name", type: "string" }, { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_optional_feature
+    fqcn: ansible.windows.win_optional_feature
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "include_parent", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "list(raw)" }, { name: "source", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "reboot_required", type: "boolean" } ]
+    params_target: [ { name: "include_parent", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "list(string)" }, { name: "source", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "reboot_required", type: "boolean" } ]
+
+  - name: win_owner
+    fqcn: ansible.windows.win_owner
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "path", required: true, type: "path" }, { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "user", required: true, type: "string" } ]
+    params_target: [ { name: "path", required: true, type: "path" }, { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "user", required: true, type: "string" } ]
+
+  - name: win_package
+    fqcn: ansible.windows.win_package
+    collection: ansible.windows
+    params_source: [ { name: "arguments", type: "string" }, { name: "chdir", type: "path" }, { name: "creates_path", type: "path" }, { name: "creates_service", type: "string" }, { name: "creates_version", type: "string" }, { name: "expected_return_code", type: "list(raw)", default: "0, 3010" }, { name: "log_path", type: "path" }, { name: "password", aliases: ["user_password"], type: "string" }, { name: "path", type: "string" }, { name: "product_id", aliases: ["productid"], type: "string" }, { name: "state", aliases: ["ensure"], type: "string", default: "present", choices: ["absent", "present"] }, { name: "username", aliases: ["user_name"], type: "string" }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] } ]
+    return_source: [ { name: "log", type: "string" }, { name: "rc", type: "integer" }, { name: "reboot_required", type: "boolean" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" } ]
+    params_target: [ { name: "arguments", type: "raw" }, { name: "chdir", type: "path" }, { name: "client_cert", type: "string" }, { name: "client_cert_password", type: "string" }, { name: "creates_path", type: "path" }, { name: "creates_service", type: "string" }, { name: "creates_version", type: "string" }, { name: "expected_return_code", type: "list(integer)", default: "0, 3010" }, { name: "follow_redirects", type: "string", default: "safe", choices: ["all", "none", "safe"] }, { name: "force_basic_auth", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "headers", type: "dictionary" }, { name: "http_agent", type: "string", default: "ansible-httpget" }, { name: "log_path", type: "path" }, { name: "maximum_redirection", type: "integer", default: 50 }, { name: "password", aliases: ["user_password"], type: "string" }, { name: "path", type: "string" }, { name: "product_id", aliases: ["productid"], type: "string" }, { name: "provider", type: "string", default: "auto", choices: ["auto", "msi", "msix", "msp", "registry"] }, { name: "proxy_password", type: "string" }, { name: "proxy_url", type: "string" }, { name: "proxy_use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "proxy_username", type: "string" }, { name: "state", aliases: ["ensure"], type: "string", default: "present", choices: ["absent", "present"] }, { name: "url_method", type: "string" }, { name: "url_password", type: "string" }, { name: "url_timeout", type: "integer", default: 30 }, { name: "url_username", type: "string" }, { name: "use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "use_proxy", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "username", aliases: ["user_name"], type: "string" }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "wait_for_children", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_target: [ { name: "log", type: "string" }, { name: "rc", type: "integer" }, { name: "reboot_required", type: "boolean" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" } ]
+
+  - name: win_path
+    fqcn: ansible.windows.win_path
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "elements", required: true, type: "list(raw)" }, { name: "name", type: "string", default: "PATH" }, { name: "scope", type: "string", default: "machine", choices: ["machine", "user"] }, { name: "state", type: "string", choices: ["absent", "present"] } ]
+    params_target: [ { name: "elements", required: true, type: "list(string)" }, { name: "name", type: "string", default: "PATH" }, { name: "scope", type: "string", default: "machine", choices: ["machine", "user"] }, { name: "state", type: "string", choices: ["absent", "present"] } ]
+
+  - name: win_ping
+    fqcn: ansible.windows.win_ping
+    collection: ansible.windows
+    params_source: [ { name: "data", type: "string", default: "pong" } ]
+    return_source: [ { name: "ping", type: "string" } ]
+    params_target: [ { name: "data", type: "string", default: "pong" } ]
+    return_target: [ { name: "ping", type: "string" } ]
+
+  - name: win_reboot
+    fqcn: ansible.windows.win_reboot
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "connect_timeout", aliases: ["connect_timeout_sec"], type: "integer", default: 5 }, { name: "msg", type: "string", default: "Reboot initiated by Ansible" }, { name: "post_reboot_delay", aliases: ["post_reboot_delay_sec"], type: "integer", default: 0 }, { name: "pre_reboot_delay", aliases: ["pre_reboot_delay_sec"], type: "integer", default: 2 }, { name: "reboot_timeout", aliases: ["reboot_timeout_sec"], type: "integer", default: 600 }, { name: "shutdown_timeout", aliases: ["shutdown_timeout_sec"], type: "integer", default: 600 }, { name: "test_command", type: "string", default: "whoami" } ]
+    return_source: [ { name: "elapsed", type: "float" }, { name: "rebooted", type: "boolean" } ]
+    params_target: [ { name: "boot_time_command", type: "string", default: "(Get-CimInstance -ClassName Win32_OperatingSystem -Property LastBootUpTime).LastBootUpTime.ToFileTime()" }, { name: "connect_timeout", aliases: ["connect_timeout_sec"], type: "float", default: 5 }, { name: "msg", type: "string", default: "Reboot initiated by Ansible" }, { name: "post_reboot_delay", aliases: ["post_reboot_delay_sec"], type: "float", default: 0 }, { name: "pre_reboot_delay", aliases: ["pre_reboot_delay_sec"], type: "float", default: 2 }, { name: "reboot_timeout", aliases: ["reboot_timeout_sec"], type: "float", default: 600 }, { name: "test_command", type: "string" } ]
+    return_target: [ { name: "elapsed", type: "float" }, { name: "rebooted", type: "boolean" } ]
+
+  - name: win_reg_stat
+    fqcn: ansible.windows.win_reg_stat
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "name", aliases: ["entry", "value", "property"], type: "string" }, { name: "path", aliases: ["key"], required: true, type: "string" } ]
+    return_source: [ { name: "changed", type: "boolean" }, { name: "exists", type: "boolean" }, { name: "properties", type: "dictionary" }, { name: "raw_value", type: "string" }, { name: "sub_keys", type: "list(raw)" }, { name: "type", type: "string" }, { name: "value", type: "string" } ]
+    params_target: [ { name: "name", aliases: ["entry", "value", "property"], type: "string" }, { name: "path", aliases: ["key"], required: true, type: "string" } ]
+    return_target: [ { name: "changed", type: "boolean" }, { name: "exists", type: "boolean" }, { name: "properties", type: "dictionary" }, { name: "raw_value", type: "string" }, { name: "sub_keys", type: "list(string)" }, { name: "type", type: "string" }, { name: "value", type: "string" } ]
+
+  - name: win_regedit
+    fqcn: ansible.windows.win_regedit
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "data", type: "string" }, { name: "delete_key", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "hive", type: "path" }, { name: "name", aliases: ["entry"], type: "string" }, { name: "path", aliases: ["key"], required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "type", aliases: ["datatype"], type: "string", default: "string", choices: ["binary", "dword", "expandstring", "multistring", "qword", "string"] } ]
+    return_source: [ { name: "data_changed", type: "boolean" }, { name: "data_type_changed", type: "boolean" } ]
+    params_target: [ { name: "data", type: "raw" }, { name: "delete_key", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "hive", type: "path" }, { name: "name", aliases: ["entry", "value"], type: "string" }, { name: "path", aliases: ["key"], required: true, type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "type", aliases: ["datatype"], type: "string", default: "string", choices: ["binary", "dword", "expandstring", "multistring", "none", "qword", "string"] } ]
+    return_target: [ { name: "data_changed", type: "boolean" }, { name: "data_type_changed", type: "boolean" } ]
+
+  - name: win_service
+    fqcn: ansible.windows.win_service
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "dependencies", type: "list(raw)" }, { name: "dependency_action", type: "string", default: "set", choices: ["add", "remove", "set"] }, { name: "description", type: "string" }, { name: "desktop_interact", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "display_name", type: "string" }, { name: "force_dependent_services", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "string" }, { name: "password", type: "string" }, { name: "path", type: "string" }, { name: "start_mode", type: "string", choices: ["auto", "delayed", "disabled", "manual"] }, { name: "state", type: "string", choices: ["absent", "paused", "restarted", "started", "stopped"] }, { name: "username", type: "string" } ]
+    return_source: [ { name: "can_pause_and_continue", type: "boolean" }, { name: "depended_by", type: "list(raw)" }, { name: "dependencies", type: "list(raw)" }, { name: "description", type: "string" }, { name: "desktop_interact", type: "boolean" }, { name: "display_name", type: "string" }, { name: "exists", type: "boolean" }, { name: "name", type: "string" }, { name: "path", type: "string" }, { name: "start_mode", type: "string" }, { name: "state", type: "string" }, { name: "username", type: "string" } ]
+    params_target: [ { name: "dependencies", type: "list(string)" }, { name: "dependency_action", type: "string", default: "set", choices: ["add", "remove", "set"] }, { name: "description", type: "string" }, { name: "desktop_interact", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "display_name", type: "string" }, { name: "error_control", type: "string", choices: ["critical", "ignore", "normal", "severe"] }, { name: "failure_actions", type: "list(dictionary)", params: [ { name: "delay_ms", aliases: ["delay"], type: "raw", default: 0 }, { name: "type", required: true, type: "string", choices: ["none", "reboot", "restart", "run_command"] } ] }, { name: "failure_actions_on_non_crash_failure", type: "boolean", choices: ["no", "yes"] }, { name: "failure_command", type: "string" }, { name: "failure_reboot_msg", type: "string" }, { name: "failure_reset_period_sec", aliases: ["failure_reset_period"], type: "raw" }, { name: "force_dependent_services", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "load_order_group", type: "string" }, { name: "name", required: true, type: "string" }, { name: "password", type: "string" }, { name: "path", type: "string" }, { name: "pre_shutdown_timeout_ms", aliases: ["pre_shutdown_timeout"], type: "raw" }, { name: "required_privileges", type: "list(string)" }, { name: "service_type", type: "string", choices: ["user_own_process", "user_share_process", "win32_own_process", "win32_share_process"] }, { name: "sid_info", type: "string", choices: ["none", "restricted", "unrestricted"] }, { name: "start_mode", type: "string", choices: ["auto", "delayed", "disabled", "manual"] }, { name: "state", type: "string", choices: ["absent", "paused", "restarted", "started", "stopped"] }, { name: "update_password", type: "string", choices: ["always", "on_create"] }, { name: "username", type: "string" } ]
+    return_target: [ { name: "can_pause_and_continue", type: "boolean" }, { name: "depended_by", type: "list(string)" }, { name: "dependencies", type: "list(string)" }, { name: "description", type: "string" }, { name: "desktop_interact", type: "boolean" }, { name: "display_name", type: "string" }, { name: "exists", type: "boolean" }, { name: "name", type: "string" }, { name: "path", type: "string" }, { name: "start_mode", type: "string" }, { name: "state", type: "string" }, { name: "username", type: "string" } ]
+
+  - name: win_share
+    fqcn: ansible.windows.win_share
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "caching_mode", type: "string", default: "Manual", choices: ["BranchCache", "Documents", "Manual", "None", "Programs", "Unknown"] }, { name: "change", type: "string" }, { name: "deny", type: "string" }, { name: "description", type: "string" }, { name: "encrypt", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "full", type: "string" }, { name: "list", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "string" }, { name: "path", required: true, type: "path" }, { name: "read", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "actions", type: "list(raw)" } ]
+    params_target: [ { name: "caching_mode", type: "string", default: "Manual", choices: ["BranchCache", "Documents", "Manual", "None", "Programs", "Unknown"] }, { name: "change", type: "string" }, { name: "deny", type: "string" }, { name: "description", type: "string" }, { name: "encrypt", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "full", type: "string" }, { name: "list", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "name", required: true, type: "string" }, { name: "path", required: true, type: "path" }, { name: "read", type: "string" }, { name: "rule_action", type: "string", default: "set", choices: ["add", "set"] }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "actions", type: "list(string)" } ]
+
+  - name: win_shell
+    fqcn: ansible.windows.win_shell
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "chdir", type: "path" }, { name: "creates", type: "path" }, { name: "executable", type: "path" }, { name: "free_form", required: true, type: "string" }, { name: "no_profile", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "removes", type: "path" }, { name: "stdin", type: "string" } ]
+    return_source: [ { name: "cmd", type: "string" }, { name: "delta", type: "string" }, { name: "end", type: "string" }, { name: "msg", type: "boolean" }, { name: "rc", type: "integer" }, { name: "start", type: "string" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(raw)" } ]
+    params_target: [ { name: "chdir", type: "path" }, { name: "creates", type: "path" }, { name: "executable", type: "path" }, { name: "free_form", required: true, type: "string" }, { name: "no_profile", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "output_encoding_override", type: "string" }, { name: "removes", type: "path" }, { name: "stdin", type: "string" } ]
+    return_target: [ { name: "cmd", type: "string" }, { name: "delta", type: "string" }, { name: "end", type: "string" }, { name: "msg", type: "boolean" }, { name: "rc", type: "integer" }, { name: "start", type: "string" }, { name: "stderr", type: "string" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+
+  - name: win_stat
+    fqcn: ansible.windows.win_stat
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    breaking_return: true
+    params_source: [ { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "follow", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "get_checksum", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "get_md5", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "path", aliases: ["dest", "name"], required: true, type: "path" } ]
+    return_source: [ { name: "changed", type: "boolean" }, { name: "stat", type: "complex", params: [ { name: "attributes", type: "string" }, { name: "checksum", type: "string" }, { name: "creationtime", type: "float" }, { name: "exists", type: "boolean" }, { name: "extension", type: "string" }, { name: "filename", type: "string" }, { name: "hlnk_targets", type: "list(raw)" }, { name: "isarchive", type: "boolean" }, { name: "isdir", type: "boolean" }, { name: "ishidden", type: "boolean" }, { name: "isjunction", type: "boolean" }, { name: "islnk", type: "boolean" }, { name: "isreadonly", type: "boolean" }, { name: "isreg", type: "boolean" }, { name: "isshared", type: "boolean" }, { name: "lastaccesstime", type: "float" }, { name: "lastwritetime", type: "float" }, { name: "lnk_source", type: "string" }, { name: "lnk_target", type: "string" }, { name: "md5", type: "string" }, { name: "nlink", type: "integer" }, { name: "owner", type: "string" }, { name: "path", type: "string" }, { name: "sharename", type: "string" }, { name: "size", type: "integer" } ] } ]
+    params_target: [ { name: "checksum_algorithm", type: "string", default: "sha1", choices: ["md5", "sha1", "sha256", "sha384", "sha512"] }, { name: "follow", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "get_checksum", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "path", aliases: ["dest", "name"], required: true, type: "path" } ]
+    return_target: [ { name: "changed", type: "boolean" }, { name: "stat", type: "complex", params: [ { name: "attributes", type: "string" }, { name: "checksum", type: "string" }, { name: "creationtime", type: "float" }, { name: "exists", type: "boolean" }, { name: "extension", type: "string" }, { name: "filename", type: "string" }, { name: "hlnk_targets", type: "list(string)" }, { name: "isarchive", type: "boolean" }, { name: "isdir", type: "boolean" }, { name: "ishidden", type: "boolean" }, { name: "isjunction", type: "boolean" }, { name: "islnk", type: "boolean" }, { name: "isreadonly", type: "boolean" }, { name: "isreg", type: "boolean" }, { name: "isshared", type: "boolean" }, { name: "lastaccesstime", type: "float" }, { name: "lastwritetime", type: "float" }, { name: "lnk_source", type: "string" }, { name: "lnk_target", type: "string" }, { name: "nlink", type: "integer" }, { name: "owner", type: "string" }, { name: "path", type: "string" }, { name: "sharename", type: "string" }, { name: "size", type: "integer" } ] } ]
+
+  - name: win_tempfile
+    fqcn: ansible.windows.win_tempfile
+    collection: ansible.windows
+    params_source: [ { name: "path", aliases: ["dest"], type: "path", default: "%TEMP%" }, { name: "prefix", type: "string", default: "ansible." }, { name: "state", type: "string", default: "file", choices: ["directory", "file"] }, { name: "suffix", type: "string", default: "" } ]
+    return_source: [ { name: "path", type: "string" } ]
+    params_target: [ { name: "path", aliases: ["dest"], type: "path", default: "%TEMP%" }, { name: "prefix", type: "string", default: "ansible." }, { name: "state", type: "string", default: "file", choices: ["directory", "file"] }, { name: "suffix", type: "string", default: "" } ]
+    return_target: [ { name: "path", type: "string" } ]
+
+  - name: win_template
+    fqcn: ansible.windows.win_template
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "block_end_string", type: "string", default: "%}" }, { name: "block_start_string", type: "string", default: "{%" }, { name: "dest", required: true, type: "path" }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "lstrip_blocks", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "newline_sequence", type: "string", default: "\\r\\n", choices: ["\\n", "\\r", "\\r\\n"] }, { name: "output_encoding", type: "string", default: "utf-8" }, { name: "src", required: true, type: "path" }, { name: "trim_blocks", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "variable_end_string", type: "string", default: "}}" }, { name: "variable_start_string", type: "string", default: "{{" } ]
+    return_source: [ { name: "backup_file", type: "string" } ]
+    params_target: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "block_end_string", type: "string", default: "%}" }, { name: "block_start_string", type: "string", default: "{%" }, { name: "dest", required: true, type: "path" }, { name: "force", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "lstrip_blocks", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "newline_sequence", type: "string", default: "\\r\\n", choices: ["\\n", "\\r", "\\r\\n"] }, { name: "output_encoding", type: "string", default: "utf-8" }, { name: "src", required: true, type: "path" }, { name: "trim_blocks", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "variable_end_string", type: "string", default: "}}" }, { name: "variable_start_string", type: "string", default: "{{" } ]
+    return_target: [ { name: "backup_file", type: "string" } ]
+
+  - name: win_updates
+    fqcn: ansible.windows.win_updates
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "blacklist", type: "list(raw)" }, { name: "category_names", type: "list(raw)", default: "CriticalUpdates\", \"SecurityUpdates\", \"UpdateRollups" }, { name: "log_path", type: "path" }, { name: "reboot", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "reboot_timeout", type: "raw", default: 1200 }, { name: "server_selection", type: "string", default: "default", choices: ["default", "managed_server", "windows_update"] }, { name: "state", type: "string", default: "installed", choices: ["downloaded", "installed", "searched"] }, { name: "use_scheduled_task", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "whitelist", type: "list(raw)" } ]
+    return_source: [ { name: "failed_update_count", type: "integer" }, { name: "filtered_updates", type: "complex", params: [ { name: "filtered_reason", type: "string" } ] }, { name: "found_update_count", type: "integer" }, { name: "installed_update_count", type: "integer" }, { name: "reboot_required", type: "boolean" }, { name: "updates", type: "complex", params: [ { name: "categories", type: "list(string)" }, { name: "failure_hresult_code", type: "boolean" }, { name: "id", type: "string" }, { name: "installed", type: "boolean" }, { name: "kb", type: "list(string)" }, { name: "title", type: "string" } ] } ]
+    params_target: [ { name: "_output_path", type: "string" }, { name: "_wait", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "accept_list", aliases: ["whitelist"], type: "list(string)" }, { name: "category_names", type: "list(string)", default: "CriticalUpdates”, “SecurityUpdates”, “UpdateRollups" }, { name: "log_path", type: "path" }, { name: "reboot", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "reboot_timeout", type: "integer", default: 1200 }, { name: "reject_list", aliases: ["blacklist"], type: "list(string)" }, { name: "server_selection", type: "string", default: "default", choices: ["default", "managed_server", "windows_update"] }, { name: "skip_optional", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "state", type: "string", default: "installed", choices: ["downloaded", "installed", "searched"] }, { name: "use_scheduled_task", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_target: [ { name: "failed_update_count", type: "integer" }, { name: "filtered_updates", type: "dictionary", params: [ { name: "filtered_reason", type: "string" }, { name: "filtered_reasons", type: "list(string)" } ] }, { name: "found_update_count", type: "integer" }, { name: "installed_update_count", type: "integer" }, { name: "reboot_required", type: "boolean" }, { name: "updates", type: "dictionary", params: [ { name: "categories", type: "list(string)" }, { name: "downloaded", type: "boolean" }, { name: "failure_hresult_code", type: "boolean" }, { name: "failure_msg", type: "string" }, { name: "id", type: "string" }, { name: "installed", type: "boolean" }, { name: "kb", type: "list(string)" }, { name: "title", type: "string" } ] } ]
+
+  - name: win_uri
+    fqcn: ansible.windows.win_uri
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "body", type: "raw" }, { name: "client_cert", type: "string" }, { name: "client_cert_password", type: "string" }, { name: "content_type", type: "string" }, { name: "creates", type: "path" }, { name: "dest", type: "path" }, { name: "follow_redirects", type: "string", default: "safe", choices: ["all", "none", "safe"] }, { name: "force_basic_auth", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "headers", type: "dictionary" }, { name: "http_agent", type: "string", default: "ansible-httpget" }, { name: "maximum_redirection", type: "integer", default: 50 }, { name: "method", type: "string", default: "GET" }, { name: "proxy_password", type: "string" }, { name: "proxy_url", type: "string" }, { name: "proxy_use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "proxy_username", type: "string" }, { name: "removes", type: "path" }, { name: "return_content", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "status_code", type: "list(raw)", default: 200 }, { name: "timeout", type: "integer", default: 30 }, { name: "url", required: true, type: "string" }, { name: "url_password", aliases: ["password"], type: "string" }, { name: "url_username", aliases: ["user", "username"], type: "string" }, { name: "use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "use_proxy", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] } ]
+    return_source: [ { name: "content", type: "string" }, { name: "content_length", type: "integer" }, { name: "elapsed", type: "float" }, { name: "json", type: "dictionary" }, { name: "status_code", type: "integer" }, { name: "status_description", type: "string" }, { name: "url", type: "string" } ]
+    params_target: [ { name: "body", type: "raw" }, { name: "client_cert", type: "string" }, { name: "client_cert_password", type: "string" }, { name: "content_type", type: "string" }, { name: "creates", type: "path" }, { name: "dest", type: "path" }, { name: "follow_redirects", type: "string", default: "safe", choices: ["all", "none", "safe"] }, { name: "force_basic_auth", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "headers", type: "dictionary" }, { name: "http_agent", type: "string", default: "ansible-httpget" }, { name: "maximum_redirection", type: "integer", default: 50 }, { name: "proxy_password", type: "string" }, { name: "proxy_url", type: "string" }, { name: "proxy_use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "proxy_username", type: "string" }, { name: "removes", type: "path" }, { name: "return_content", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "status_code", type: "list(integer)", default: 200 }, { name: "url", required: true, type: "string" }, { name: "url_method", aliases: ["method"], type: "string", default: "GET" }, { name: "url_password", aliases: ["password"], type: "string" }, { name: "url_timeout", aliases: ["timeout"], type: "integer", default: 30 }, { name: "url_username", aliases: ["user", "username"], type: "string" }, { name: "use_default_credential", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "use_proxy", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "validate_certs", type: "boolean", default: "yes", choices: ["no", "yes"] } ]
+    return_target: [ { name: "content", type: "string" }, { name: "content_length", type: "integer" }, { name: "elapsed", type: "float" }, { name: "json", type: "dictionary" }, { name: "status_code", type: "integer" }, { name: "status_description", type: "string" }, { name: "url", type: "string" } ]
+
+  - name: win_user
+    fqcn: ansible.windows.win_user
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "account_disabled", type: "boolean", choices: ["no", "yes"] }, { name: "account_locked", type: "raw", choices: ["no"] }, { name: "description", type: "string" }, { name: "fullname", type: "string" }, { name: "groups", type: "raw" }, { name: "groups_action", type: "string", default: "replace", choices: ["add", "remove", "replace"] }, { name: "name", required: true, type: "string" }, { name: "password", type: "string" }, { name: "password_expired", type: "boolean", choices: ["no", "yes"] }, { name: "password_never_expires", type: "boolean", choices: ["no", "yes"] }, { name: "state", type: "string", default: "present", choices: ["absent", "present", "query"] }, { name: "update_password", type: "string", default: "always", choices: ["always", "on_create"] }, { name: "user_cannot_change_password", type: "boolean", choices: ["no", "yes"] } ]
+    return_source: [ { name: "account_disabled", type: "boolean" }, { name: "account_locked", type: "boolean" }, { name: "description", type: "string" }, { name: "fullname", type: "string" }, { name: "groups", type: "list(raw)" }, { name: "name", type: "string" }, { name: "password_expired", type: "boolean" }, { name: "password_never_expires", type: "boolean" }, { name: "path", type: "string" }, { name: "sid", type: "string" }, { name: "user_cannot_change_password", type: "boolean" } ]
+    params_target: [ { name: "account_disabled", type: "boolean", choices: ["no", "yes"] }, { name: "account_locked", type: "boolean", choices: ["no", "yes"] }, { name: "description", type: "string" }, { name: "fullname", type: "string" }, { name: "groups", type: "list(string)" }, { name: "groups_action", type: "string", default: "replace", choices: ["add", "remove", "replace"] }, { name: "home_directory", type: "string" }, { name: "login_script", type: "string" }, { name: "name", required: true, type: "string" }, { name: "password", type: "string" }, { name: "password_expired", type: "boolean", choices: ["no", "yes"] }, { name: "password_never_expires", type: "boolean", choices: ["no", "yes"] }, { name: "profile", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present", "query"] }, { name: "update_password", type: "string", default: "always", choices: ["always", "on_create"] }, { name: "user_cannot_change_password", type: "boolean", choices: ["no", "yes"] } ]
+    return_target: [ { name: "account_disabled", type: "boolean" }, { name: "account_locked", type: "boolean" }, { name: "description", type: "string" }, { name: "fullname", type: "string" }, { name: "groups", type: "list(string)" }, { name: "name", type: "string" }, { name: "password_expired", type: "boolean" }, { name: "password_never_expires", type: "boolean" }, { name: "path", type: "string" }, { name: "sid", type: "string" }, { name: "user_cannot_change_password", type: "boolean" } ]
+
+  - name: win_user_right
+    fqcn: ansible.windows.win_user_right
+    collection: ansible.windows
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "action", type: "string", default: "set", choices: ["add", "remove", "set"] }, { name: "name", required: true, type: "string" }, { name: "users", required: true, type: "list(raw)" } ]
+    return_source: [ { name: "added", type: "list(raw)" }, { name: "removed", type: "list(raw)" } ]
+    params_target: [ { name: "action", type: "string", default: "set", choices: ["add", "remove", "set"] }, { name: "name", required: true, type: "string" }, { name: "users", required: true, type: "list(string)" } ]
+    return_target: [ { name: "added", type: "list(string)" }, { name: "removed", type: "list(string)" } ]
+
+  - name: win_wait_for
+    fqcn: ansible.windows.win_wait_for
+    collection: ansible.windows
+    params_source: [ { name: "connect_timeout", type: "integer", default: 5 }, { name: "delay", type: "integer" }, { name: "exclude_hosts", type: "list(raw)" }, { name: "host", type: "string", default: "127.0.0.1" }, { name: "path", type: "path" }, { name: "port", type: "integer" }, { name: "regex", aliases: ["search_regex", "regexp"], type: "string" }, { name: "sleep", type: "integer", default: 1 }, { name: "state", type: "string", default: "started", choices: ["absent", "drained", "present", "started", "stopped"] }, { name: "timeout", type: "integer", default: 300 } ]
+    return_source: [ { name: "elapsed", type: "float" }, { name: "wait_attempts", type: "integer" } ]
+    params_target: [ { name: "connect_timeout", type: "integer", default: 5 }, { name: "delay", type: "integer" }, { name: "exclude_hosts", type: "list(string)" }, { name: "host", type: "string", default: "127.0.0.1" }, { name: "path", type: "path" }, { name: "port", type: "integer" }, { name: "regex", aliases: ["search_regex", "regexp"], type: "string" }, { name: "sleep", type: "integer", default: 1 }, { name: "state", type: "string", default: "started", choices: ["absent", "drained", "present", "started", "stopped"] }, { name: "timeout", type: "integer", default: 300 } ]
+    return_target: [ { name: "elapsed", type: "float" }, { name: "wait_attempts", type: "integer" } ]
+
+  - name: win_whoami
+    fqcn: ansible.windows.win_whoami
+    collection: ansible.windows
+    return_source: [ { name: "account", type: "complex", params: [ { name: "account_name", type: "string" }, { name: "domain_name", type: "string" }, { name: "sid", type: "string" }, { name: "type", type: "string" } ] }, { name: "authentication_package", type: "string" }, { name: "dns_domain_name", type: "string" }, { name: "groups", type: "list(raw)" }, { name: "impersonation_level", type: "string" }, { name: "label", type: "complex", params: [ { name: "account_name", type: "string" }, { name: "domain_name", type: "string" }, { name: "sid", type: "string" }, { name: "type", type: "string" } ] }, { name: "login_domain", type: "string" }, { name: "login_time", type: "string" }, { name: "logon_id", type: "integer" }, { name: "logon_server", type: "string" }, { name: "logon_type", type: "string" }, { name: "privileges", type: "dictionary" }, { name: "rights", type: "list(raw)" }, { name: "token_type", type: "string" }, { name: "upn", type: "string" }, { name: "user_flags", type: "string" } ]
+    return_target: [ { name: "account", type: "complex", params: [ { name: "account_name", type: "string" }, { name: "domain_name", type: "string" }, { name: "sid", type: "string" }, { name: "type", type: "string" } ] }, { name: "authentication_package", type: "string" }, { name: "dns_domain_name", type: "string" }, { name: "groups", type: "list(string)" }, { name: "impersonation_level", type: "string" }, { name: "label", type: "complex", params: [ { name: "account_name", type: "string" }, { name: "domain_name", type: "string" }, { name: "sid", type: "string" }, { name: "type", type: "string" } ] }, { name: "login_domain", type: "string" }, { name: "login_time", type: "string" }, { name: "logon_id", type: "integer" }, { name: "logon_server", type: "string" }, { name: "logon_type", type: "string" }, { name: "privileges", type: "dictionary" }, { name: "rights", type: "list(string)" }, { name: "token_type", type: "string" }, { name: "upn", type: "string" }, { name: "user_flags", type: "string" } ]
+

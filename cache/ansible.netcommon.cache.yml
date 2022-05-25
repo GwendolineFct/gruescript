@@ -1,0 +1,212 @@
+---
+modules:
+  - name: cli_command
+    fqcn: ansible.netcommon.cli_command
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "answer", type: "list(raw)" }, { name: "check_all", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "command", required: true, type: "raw" }, { name: "newline", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "prompt", type: "list(raw)" }, { name: "sendonly", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_source: [ { name: "json", type: "dictionary" }, { name: "stdout", type: "string" } ]
+    params_target: [ { name: "answer", type: "list(string)" }, { name: "check_all", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "command", required: true, type: "string" }, { name: "newline", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "prompt", type: "list(string)" }, { name: "sendonly", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_target: [ { name: "json", type: "dictionary" }, { name: "stdout", type: "string" } ]
+
+  - name: cli_config
+    fqcn: ansible.netcommon.cli_config
+    collection: ansible.netcommon
+    params_source: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "backup_options", type: "dictionary", params: [ { name: "dir_path", type: "path" }, { name: "filename", type: "raw" } ] }, { name: "commit", type: "boolean", choices: ["no", "yes"] }, { name: "commit_comment", type: "string" }, { name: "config", type: "string" }, { name: "defaults", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "diff_ignore_lines", type: "raw" }, { name: "diff_match", type: "raw", choices: ["exact", "line", "none", "strict"] }, { name: "diff_replace", type: "raw", choices: ["block", "config", "line"] }, { name: "multiline_delimiter", type: "string" }, { name: "replace", type: "string" }, { name: "rollback", type: "raw" } ]
+    return_source: [ { name: "backup_path", type: "string" }, { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "backup_options", type: "dictionary", params: [ { name: "dir_path", type: "path" }, { name: "filename", type: "string" } ] }, { name: "commit", type: "boolean", choices: ["no", "yes"] }, { name: "commit_comment", type: "string" }, { name: "config", type: "string" }, { name: "defaults", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "diff_ignore_lines", type: "list(string)" }, { name: "diff_match", type: "string", choices: ["exact", "line", "none", "strict"] }, { name: "diff_replace", type: "string", choices: ["block", "config", "line"] }, { name: "multiline_delimiter", type: "string" }, { name: "replace", type: "string" }, { name: "rollback", type: "integer" } ]
+    return_target: [ { name: "backup_path", type: "string" }, { name: "commands", type: "list(string)" }, { name: "diff", type: "string" } ]
+
+  - name: net_banner
+    fqcn: ansible.netcommon.net_banner
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "banner", required: true, type: "raw", choices: ["login", "motd"] }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] }, { name: "text", type: "raw" } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "banner", required: true, type: "string", choices: ["login", "motd"] }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "text", type: "string" } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_get
+    fqcn: ansible.netcommon.net_get
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "dest", type: "raw", default: "Same filename as specified in I(src). The path will be playbook root or role root directory if playbook is part of a role." }, { name: "protocol", type: "raw", default: "scp", choices: ["scp", "sftp"] }, { name: "src", required: true, type: "raw" } ]
+    params_target: [ { name: "dest", type: "string", default: "Same filename as specified in I(src). The path will be playbook root or role root directory if playbook is part of a role." }, { name: "protocol", type: "string", default: "scp", choices: ["scp", "sftp"] }, { name: "src", required: true, type: "string" } ]
+
+  - name: net_interface
+    fqcn: ansible.netcommon.net_interface
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "delay", type: "raw", default: 10 }, { name: "description", type: "raw" }, { name: "duplex", type: "raw", default: "auto", choices: ["auto", "full", "half"] }, { name: "enabled", type: "raw" }, { name: "mtu", type: "raw" }, { name: "name", required: true, type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "rx_rate", type: "raw" }, { name: "speed", type: "raw" }, { name: "state", type: "raw", default: "present", choices: ["absent", "down", "present", "up"] }, { name: "tx_rate", type: "raw" } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "delay", type: "string", default: 10 }, { name: "description", type: "string" }, { name: "duplex", type: "string", default: "auto", choices: ["auto", "full", "half"] }, { name: "enabled", type: "string" }, { name: "mtu", type: "string" }, { name: "name", required: true, type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "rx_rate", type: "string" }, { name: "speed", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "down", "present", "up"] }, { name: "tx_rate", type: "string" } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_l2_interface
+    fqcn: ansible.netcommon.net_l2_interface
+    collection: ansible.netcommon
+    params_source: [ { name: "access_vlan", type: "raw" }, { name: "aggregate", type: "raw" }, { name: "mode", type: "raw", default: "access", choices: ["access", "trunk"] }, { name: "name", type: "raw" }, { name: "native_vlan", type: "raw" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] }, { name: "trunk_allowed_vlans", type: "raw" }, { name: "trunk_vlans", type: "raw" } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "access_vlan", type: "string" }, { name: "aggregate", type: "string" }, { name: "mode", type: "string", default: "access", choices: ["access", "trunk"] }, { name: "name", type: "string" }, { name: "native_vlan", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "trunk_allowed_vlans", type: "string" }, { name: "trunk_vlans", type: "string" } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_l3_interface
+    fqcn: ansible.netcommon.net_l3_interface
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "ipv4", type: "raw" }, { name: "ipv6", type: "raw" }, { name: "name", type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "ipv4", type: "string" }, { name: "ipv6", type: "string" }, { name: "name", type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_linkagg
+    fqcn: ansible.netcommon.net_linkagg
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "members", required: true, type: "raw" }, { name: "min_links", type: "raw" }, { name: "mode", type: "raw", choices: ["active", "on", "passive"] }, { name: "name", required: true, type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "down", "present", "up"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "members", required: true, type: "string" }, { name: "min_links", type: "string" }, { name: "mode", type: "string", default: "yes", choices: ["True", "active", "passive", "yes"] }, { name: "name", required: true, type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "down", "present", "up"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_lldp
+    fqcn: ansible.netcommon.net_lldp
+    collection: ansible.netcommon
+    params_source: [ { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_lldp_interface
+    fqcn: ansible.netcommon.net_lldp_interface
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "name", type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "disabled", "enabled", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "name", type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "disabled", "enabled", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_logging
+    fqcn: ansible.netcommon.net_logging
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "dest", type: "raw", choices: ["console", "host"] }, { name: "facility", type: "raw" }, { name: "level", type: "raw" }, { name: "name", type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "dest", type: "string", choices: ["console", "host"] }, { name: "facility", type: "string" }, { name: "level", type: "string" }, { name: "name", type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_ping
+    fqcn: ansible.netcommon.net_ping
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "count", type: "raw", default: 5 }, { name: "dest", required: true, type: "raw" }, { name: "source", type: "raw" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] }, { name: "vrf", type: "raw", default: "default" } ]
+    return_source: [ { name: "commands", type: "list(raw)" }, { name: "packet_loss", type: "string" }, { name: "packets_rx", type: "integer" }, { name: "packets_tx", type: "integer" }, { name: "rtt", type: "dictionary" } ]
+    params_target: [ { name: "count", type: "string", default: 5 }, { name: "dest", required: true, type: "string" }, { name: "source", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "vrf", type: "string", default: "default" } ]
+    return_target: [ { name: "commands", type: "list(string)" }, { name: "packet_loss", type: "string" }, { name: "packets_rx", type: "integer" }, { name: "packets_tx", type: "integer" }, { name: "rtt", type: "dictionary" } ]
+
+  - name: net_put
+    fqcn: ansible.netcommon.net_put
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "dest", type: "raw", default: "Filename from src and at default directory of user shell on network_os." }, { name: "mode", type: "raw", default: "binary", choices: ["binary", "text"] }, { name: "protocol", type: "raw", default: "scp", choices: ["scp", "sftp"] }, { name: "src", required: true, type: "raw" } ]
+    params_target: [ { name: "dest", type: "string", default: "Filename from src and at default directory of user shell on network_os." }, { name: "mode", type: "string", default: "binary", choices: ["binary", "text"] }, { name: "protocol", type: "string", default: "scp", choices: ["scp", "sftp"] }, { name: "src", required: true, type: "string" } ]
+
+  - name: net_static_route
+    fqcn: ansible.netcommon.net_static_route
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "admin_distance", type: "raw" }, { name: "aggregate", type: "raw" }, { name: "mask", required: true, type: "raw" }, { name: "next_hop", required: true, type: "raw" }, { name: "prefix", required: true, type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "admin_distance", type: "string" }, { name: "aggregate", type: "string" }, { name: "mask", required: true, type: "string" }, { name: "next_hop", required: true, type: "string" }, { name: "prefix", required: true, type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_system
+    fqcn: ansible.netcommon.net_system
+    collection: ansible.netcommon
+    params_source: [ { name: "domain_name", type: "raw" }, { name: "domain_search", type: "raw" }, { name: "hostname", type: "raw" }, { name: "lookup_source", type: "raw" }, { name: "name_servers", type: "raw" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "domain_name", type: "string" }, { name: "domain_search", type: "string" }, { name: "hostname", type: "string" }, { name: "lookup_source", type: "string" }, { name: "name_servers", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_user
+    fqcn: ansible.netcommon.net_user
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "configured_password", type: "raw" }, { name: "name", type: "raw" }, { name: "nopassword", type: "boolean", choices: ["no", "yes"] }, { name: "privilege", type: "raw" }, { name: "purge", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "role", type: "raw" }, { name: "sshkey", type: "raw" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] }, { name: "update_password", type: "raw", default: "always", choices: ["always", "on_create"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "configured_password", type: "string" }, { name: "name", type: "string" }, { name: "nopassword", type: "boolean", choices: ["no", "yes"] }, { name: "privilege", type: "string" }, { name: "purge", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "role", type: "string" }, { name: "sshkey", type: "string" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] }, { name: "update_password", type: "string", default: "always", choices: ["always", "on_create"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_vlan
+    fqcn: ansible.netcommon.net_vlan
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "interfaces", type: "raw" }, { name: "name", type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "active", "present", "suspend"] }, { name: "vlan_id", type: "raw" } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "interfaces", type: "string" }, { name: "name", type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "active", "present", "suspend"] }, { name: "vlan_id", type: "string" } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: net_vrf
+    fqcn: ansible.netcommon.net_vrf
+    collection: ansible.netcommon
+    params_source: [ { name: "aggregate", type: "raw" }, { name: "interfaces", type: "raw" }, { name: "name", type: "raw" }, { name: "purge", type: "raw", default: "no" }, { name: "state", type: "raw", default: "present", choices: ["absent", "present"] } ]
+    return_source: [ { name: "commands", type: "list(raw)" } ]
+    params_target: [ { name: "aggregate", type: "string" }, { name: "interfaces", type: "string" }, { name: "name", type: "string" }, { name: "purge", type: "string", default: "no" }, { name: "state", type: "string", default: "present", choices: ["absent", "present"] } ]
+    return_target: [ { name: "commands", type: "list(string)" } ]
+
+  - name: netconf_config
+    fqcn: ansible.netcommon.netconf_config
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "backup_options", type: "dictionary", params: [ { name: "dir_path", type: "path" }, { name: "filename", type: "raw" } ] }, { name: "commit", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "confirm", type: "raw", default: 0 }, { name: "confirm_commit", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "content", aliases: ["xml"], type: "raw" }, { name: "default_operation", type: "raw", choices: ["merge", "none", "replace"] }, { name: "delete", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "error_option", type: "raw", default: "stop-on-error", choices: ["continue-on-error", "rollback-on-error", "stop-on-error"] }, { name: "format", type: "raw", default: "xml", choices: ["text", "xml"] }, { name: "host", required: true, type: "string" }, { name: "hostkey_verify", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "lock", type: "raw", default: "always", choices: ["always", "if-supported", "never"] }, { name: "look_for_keys", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "password", type: "string" }, { name: "port", type: "integer", default: 830 }, { name: "save", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "source_datastore", aliases: ["source"], type: "raw" }, { name: "src", type: "raw" }, { name: "ssh_keyfile", type: "path" }, { name: "target", aliases: ["datastore"], type: "raw", default: "auto" }, { name: "timeout", type: "integer", default: 10 }, { name: "username", type: "string" }, { name: "validate", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_source: [ { name: "backup_path", type: "string" }, { name: "diff", type: "dictionary" }, { name: "server_capabilities", type: "list(raw)" } ]
+    params_target: [ { name: "backup", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "backup_options", type: "dictionary", params: [ { name: "dir_path", type: "path" }, { name: "filename", type: "string" } ] }, { name: "commit", type: "boolean", default: "yes", choices: ["no", "yes"] }, { name: "confirm", type: "integer", default: 0 }, { name: "confirm_commit", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "content", aliases: ["xml"], type: "raw" }, { name: "default_operation", type: "string", choices: ["merge", "none", "replace"] }, { name: "delete", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "error_option", type: "string", default: "stop-on-error", choices: ["continue-on-error", "rollback-on-error", "stop-on-error"] }, { name: "format", type: "string", choices: ["json", "text", "xml"] }, { name: "get_filter", type: "raw" }, { name: "lock", type: "string", default: "always", choices: ["always", "if-supported", "never"] }, { name: "save", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "source_datastore", aliases: ["source"], type: "string" }, { name: "target", aliases: ["datastore"], type: "string", default: "auto", choices: ["auto", "candidate", "running"] }, { name: "validate", type: "boolean", default: "no", choices: ["no", "yes"] } ]
+    return_target: [ { name: "backup_path", type: "string" }, { name: "diff", type: "dictionary" }, { name: "server_capabilities", type: "list(string)" } ]
+
+  - name: netconf_get
+    fqcn: ansible.netcommon.netconf_get
+    collection: ansible.netcommon
+    params_source: [ { name: "display", type: "raw", choices: ["json", "pretty", "xml"] }, { name: "filter", type: "raw" }, { name: "lock", type: "raw", default: "never", choices: ["always", "if-supported", "never"] }, { name: "source", type: "raw", choices: ["candidate", "running", "startup"] } ]
+    params_target: [ { name: "display", type: "string", choices: ["json", "native", "pretty", "xml"] }, { name: "filter", type: "raw" }, { name: "lock", type: "string", default: "never", choices: ["always", "if-supported", "never"] }, { name: "source", type: "string", choices: ["candidate", "running", "startup"] } ]
+    return_target: [ { name: "output", type: "complex", params: [ { name: "formatted_output", type: "string" } ] }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+
+  - name: netconf_rpc
+    fqcn: ansible.netcommon.netconf_rpc
+    collection: ansible.netcommon
+    params_source: [ { name: "content", type: "raw" }, { name: "display", type: "raw", choices: ["json", "pretty", "xml"] }, { name: "rpc", type: "raw" }, { name: "xmlns", type: "raw" } ]
+    params_target: [ { name: "content", type: "string" }, { name: "display", type: "string", choices: ["json", "pretty", "xml"] }, { name: "rpc", required: true, type: "string" }, { name: "xmlns", type: "string" } ]
+    return_target: [ { name: "output", type: "complex", params: [ { name: "formatted_output", type: "string" } ] }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+
+  - name: restconf_config
+    fqcn: ansible.netcommon.restconf_config
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "content", type: "raw" }, { name: "format", type: "raw", default: "json", choices: ["json", "xml"] }, { name: "method", type: "raw", default: "post", choices: ["delete", "patch", "post", "put"] }, { name: "path", required: true, type: "raw" } ]
+    return_source: [ { name: "candidate", type: "dictionary" }, { name: "running", type: "dictionary" } ]
+    params_target: [ { name: "content", type: "string" }, { name: "format", type: "string", default: "json", choices: ["json", "xml"] }, { name: "method", type: "string", default: "post", choices: ["delete", "patch", "post", "put"] }, { name: "path", required: true, type: "string" } ]
+    return_target: [ { name: "candidate", type: "dictionary" }, { name: "running", type: "dictionary" } ]
+
+  - name: restconf_get
+    fqcn: ansible.netcommon.restconf_get
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "content", type: "raw", choices: ["all", "config", "nonconfig"] }, { name: "output", type: "raw", default: "json", choices: ["json", "xml"] }, { name: "path", required: true, type: "raw" } ]
+    return_source: [ { name: "response", type: "dictionary" } ]
+    params_target: [ { name: "content", type: "string", choices: ["all", "config", "nonconfig"] }, { name: "output", type: "string", default: "json", choices: ["json", "xml"] }, { name: "path", required: true, type: "string" } ]
+    return_target: [ { name: "response", type: "dictionary" } ]
+
+  - name: telnet
+    fqcn: ansible.netcommon.telnet
+    collection: ansible.netcommon
+    breaking: true
+    breaking_params: true
+    params_source: [ { name: "command", aliases: ["commands"], required: true, type: "raw" }, { name: "host", type: "raw", default: "remote_addr" }, { name: "login_prompt", type: "raw", default: "login: " }, { name: "password", type: "raw" }, { name: "password_prompt", type: "raw", default: "Password: " }, { name: "pause", type: "raw", default: 1 }, { name: "port", type: "raw", default: 23 }, { name: "prompts", type: "raw", default: "$" }, { name: "send_newline", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "timeout", type: "raw", default: 120 }, { name: "user", type: "raw", default: "remote_user" } ]
+    return_source: [ { name: "output", type: "list(raw)" } ]
+    params_target: [ { name: "command", aliases: ["commands"], required: true, type: "list(string)" }, { name: "host", type: "string", default: "remote_addr" }, { name: "login_prompt", type: "string", default: "login: " }, { name: "password", type: "string" }, { name: "password_prompt", type: "string", default: "Password: " }, { name: "pause", type: "integer", default: 1 }, { name: "port", type: "integer", default: 23 }, { name: "prompts", type: "list(string)", default: "$" }, { name: "send_newline", type: "boolean", default: "no", choices: ["no", "yes"] }, { name: "timeout", type: "integer", default: 120 }, { name: "user", type: "string", default: "remote_user" } ]
+    return_target: [ { name: "output", type: "list(string)" } ]
+

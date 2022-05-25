@@ -1,0 +1,10 @@
+---
+  - name: a simple task
+    realfacts:
+  - name: another one
+    breaking:
+      param2: Don't go breaking my heart
+
+  - name: and a last one
+    registration:
+    register: somevar

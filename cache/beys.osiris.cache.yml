@@ -1,0 +1,25 @@
+---
+modules:
+  - name: osiris_mr
+    fqcn: beys.osiris.osiris_mr
+    collection: beys.osiris
+    params_source: 
+      - { name: "obj_type", type: "string", required: true, choices: ["component", "software"] }
+      - { name: "obj_name", type: "string", required: true }
+      - { name: "version", type: "string", required: true }
+      - { name: "mode", type: "string", default: "replace", choices: ["add", "replace"] }
+      - { name: "servers", type: "list(string)" }
+      - { name: "clouds", type: "list(string)" }
+    return_source: 
+      - { name: "merge_request", type: "string" }
+      - { name: "body", type: "string" }
+    params_target: 
+      - { name: "obj_type", type: "string", required: true, choices: ["component", "software"] }
+      - { name: "obj_name", type: "string", required: true }
+      - { name: "version", type: "string", required: true }
+      - { name: "mode", type: "string", default: "replace", choices: ["add", "replace"] }
+      - { name: "servers", type: "list(string)" }
+      - { name: "clouds", type: "list(string)" }
+    return_target: 
+      - { name: "merge_request", type: "string" }
+      - { name: "body", type: "string" }
