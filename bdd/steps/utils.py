@@ -9,7 +9,7 @@ def diff(expected, actual):
     gray = '\x1b[90m'
     end = '\x1b[0m'
     output = []
-    unified_diff = "".join(difflib.unified_diff(expected.splitlines(keepends=True), actual.splitlines(keepends=True), "Expected content", "  Actual content", n=1)).splitlines(keepends=False)
+    unified_diff = "".join(difflib.unified_diff(expected.splitlines(keepends=True), actual.splitlines(keepends=True), "Expected content", "  Actual content", n=5)).splitlines(keepends=False)
 
     for line in unified_diff:
         if line[0] == '-':

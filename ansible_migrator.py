@@ -15,6 +15,14 @@ import time
 
 
 
+CACHE_FILE_PATTERN = re.compile(".*\\.cache\\.y[a]?ml")
+ANSIBLE_FILE_PATTERN = re.compile(".*\\.y[a]?ml")
+MIGRATED_FILE_PATTERN = re.compile(".*\\.migrated\\.y[a]?ml")
+
+URL_ANSIBLE_MODULE = "https://docs.ansible.com/ansible/{version}/modules/{id}_module.html"
+URL_ANSIBLE_COLLECTION = "https://docs.ansible.com/ansible/{version}/collections/{id}_module.html"
+URL_ANSIBLE_COLLECTION_INDEX = "https://docs.ansible.com/ansible/{version}/collections/{id}/index.html"
+
 DEFAULT_OPTIONS = {
     "path": None,
     "source": None,
@@ -32,12 +40,14 @@ DEFAULT_OPTIONS = {
     "no_logs_in_files": False,
     "raw_to_any_ok": True,
     "complex_is_dictionary": True,
+    "ignore_file_patterns": [
+        re.compile('\\.'),         # Ignore current folder pointer
+        re.compile('\\.\\.'),      # Ignore parent folder pointer
+        re.compile('\\.git'),      # Ignore .git folder
+        CACHE_FILE_PATTERN,
+        MIGRATED_FILE_PATTERN
+    ],
 }
-
-CACHE_FILE_PATTERN = re.compile(".*\\.cache\\.y[a]?ml")
-ANSIBLE_FILE_PATTERN = re.compile(".*\\.y[a]?ml")
-MIGRATED_FILE_PATTERN = re.compile(".*\\.migrated\\.y[a]?ml")
-
 
 options = {}
 
@@ -57,7 +67,10 @@ PLAYBOOK_TASK_KEYWORDS = [
     "post_tasks",
     "roles",
 ]
-TASK_GENERIC_ATTRIBUTES = [re.compile(x) for x in ("any_errors_fatal", "args", "async", "become","become_exe","become_exe", "become_flags", "become_method","become_user","changed_when", "check_mode","collections","connection","debugger","delay","delegate_facts","delegate_to","diff","environment","failed_when","ignore_errors","ignore_unreachable","local_action","loop","loop_control","module_defaults","name","no_log","notify","poll","port","register","remote_user","retries","run_once","tags","throttle","timeout","until","vars","when","with_.*")]
+
+TASK_GENERIC_ATTRIBUTES = [
+    re.compile(x) for x in ("any_errors_fatal", "args", "async", "become","become_exe","become_exe", "become_flags", "become_method","become_user","changed_when", "check_mode","collections","connection","debugger","delay","delegate_facts","delegate_to","diff","environment","failed_when","ignore_errors","ignore_unreachable","local_action","loop","loop_control","module_defaults","name","no_log","notify","poll","port","register","remote_user","retries","run_once","tags","throttle","timeout","until","vars","when","with_.*")
+]
 
 TYPES_ORDER = ('boolean','integer', 'float', 'string', 'path', 'dictionary', 'raw', 'any')
 
@@ -160,6 +173,13 @@ def sanitizeUrl(url):
             stack.append(part)
     return '/'.join(stack)
 
+
+def format_ansible_url(url, version, id):
+    return url.format(version=version, id=id)
+
+def get_ansible_url(url, version, id):
+    return get_url(format_ansible_url(url, version, id))
+
 def get_url(url):
     url = sanitizeUrl(url)
     cache_url = url_to_cache_path(url)
@@ -248,7 +268,7 @@ def to_yaml_value(value, forcequotes=False):
     log_fatal(f"unhandled type {type(value)}")
     exit(1)
 
-def params_yo_yaml(parent, params, depth):
+def params_to_yaml(parent, params, depth):
     yml = ""
     for key in params:
         param = params[key]
@@ -267,7 +287,7 @@ def params_yo_yaml(parent, params, depth):
         if "choices" in param and param['choices'] is not None and len(param['choices']) > 0:
             yml += f", choices: [{', '.join(map(lambda x: str(to_yaml_value(x, True)), param['choices']))}]"
         if "params" in param and param['params'] is not None and len(param['params']) > 0:
-            yml += f", params: {params_yo_yaml(parent+'.'+key, param['params'], depth+2).rstrip()}"
+            yml += f", params: {params_to_yaml(parent+'.'+key, param['params'], depth+2).rstrip()}"
         yml += " }"
     return "[ " + yml + " ]"
 
@@ -302,17 +322,17 @@ def to_yaml(modules):
         if "breaking_facts" in module and module['breaking_facts']:
             yml += f"{indent}  breaking_facts: true\n"
         if "params_source" in module and len(module['params_source']) > 0:
-            yml += f"{indent}  params_source:{paramstart}{params_yo_yaml(key+'.params_source', module['params_source'], depth+1).rstrip()}\n"
+            yml += f"{indent}  params_source:{paramstart}{params_to_yaml(key+'.params_source', module['params_source'], depth+1).rstrip()}\n"
         if "return_source" in module and len(module['return_source']) > 0:
-            yml += f"{indent}  return_source:{paramstart}{params_yo_yaml(key+'.return_source', module['return_source'], depth+1).rstrip()}\n"
+            yml += f"{indent}  return_source:{paramstart}{params_to_yaml(key+'.return_source', module['return_source'], depth+1).rstrip()}\n"
         if "facts_source" in module and len(module['facts_source']) > 0:
-            yml += f"{indent}  facts_source:{paramstart}{params_yo_yaml(key+'.facts_source', module['facts_source'], depth+1).rstrip()}\n"
+            yml += f"{indent}  facts_source:{paramstart}{params_to_yaml(key+'.facts_source', module['facts_source'], depth+1).rstrip()}\n"
         if "params_target" in module and len(module['params_target']) > 0:
-            yml += f"{indent}  params_target:{paramstart}{params_yo_yaml(key+'.params_target', module['params_target'], depth+1).rstrip()}\n"
+            yml += f"{indent}  params_target:{paramstart}{params_to_yaml(key+'.params_target', module['params_target'], depth+1).rstrip()}\n"
         if "return_target" in module and len(module['return_target']) > 0:
-            yml += f"{indent}  return_target:{paramstart}{params_yo_yaml(key+'.return_target', module['return_target'], depth+1).rstrip()}\n"
+            yml += f"{indent}  return_target:{paramstart}{params_to_yaml(key+'.return_target', module['return_target'], depth+1).rstrip()}\n"
         if "facts_target" in module and len(module['facts_target']) > 0:
-            yml += f"{indent}  facts_target:{paramstart}{params_yo_yaml(key+'.facts_target', module['facts_target'], depth+1).rstrip()}\n"
+            yml += f"{indent}  facts_target:{paramstart}{params_to_yaml(key+'.facts_target', module['facts_target'], depth+1).rstrip()}\n"
         yml += "\n"
 
     return yml
@@ -623,6 +643,10 @@ def check_module_params(parent, params_source, params_target, type = "parameter"
     
     return breaking_change
 
+
+def is_missing_module_page(html):
+    return "Oops!" in html
+
 def get_module(key, cache_it = True):
     # global options
     if cache_it and key in modules:
@@ -633,14 +657,14 @@ def get_module(key, cache_it = True):
     
 
     log_info(f"  Retrieving doc for module {key} ...")
-    url_source, html_source = get_url(f"https://docs.ansible.com/ansible/{options['source_version']}/modules/{key}_module.html")
-    if "Oops!" in html_source:
+    url_source, html_source = get_ansible_url(URL_ANSIBLE_MODULE, options['source_version'], key)
+    if is_missing_module_page(html_source):
         # does not exist in source version
         log_debug(f"can't find module {key} from {source_version()} online doc")
 
         # maybe we used a fully qualified module name ...
-        urllatest, htmllatest = get_url(f"https://docs.ansible.com/ansible/{options['target_version']}/collections/{key.replace('.','/')}_module.html")
-        if "Oops!" in htmllatest:
+        urllatest, htmllatest = get_ansible_url(URL_ANSIBLE_COLLECTION, options['target_version'], key.replace('.','/'))
+        if is_missing_module_page(htmllatest):
             # does not exist in target version either
             log_debug(f"can't find module {key} from {target_version()} online doc")
             return None
@@ -648,8 +672,8 @@ def get_module(key, cache_it = True):
             log_debug(f"Found module {key} in {target_version()}")
 
         # let's try finding it in source version
-        url_source, html_source = get_url(f"https://docs.ansible.com/ansible/{options['source_version']}/collections/{key.replace('.','/')}_module.html")
-        if "Oops!" in html_source:
+        url_source, html_source = get_ansible_url(URL_ANSIBLE_COLLECTION, options['source_version'], key.replace('.','/'))
+        if is_missing_module_page(html_source):
             # does not exist in source version at all
             log_warning(f"module {key} does not exist in {source_version()}")
             return None
@@ -665,7 +689,7 @@ def get_module(key, cache_it = True):
     tree_source = html.fromstring(html_source).xpath("//div[@class='wy-nav-content']")[0]
     params_source = get_module_parameters_or_return_values(tree_source, options['source_version'], "parameters")
     return_source = get_module_parameters_or_return_values(tree_source, options['source_version'], "return-values")
-    facts_source = get_modu29le_parameters_or_return_values(tree_source, options['source_version'], "returned-facts")
+    facts_source = get_module_parameters_or_return_values(tree_source, options['source_version'], "returned-facts")
     module.update({"params_source": params_source})
     module.update({"return_source": return_source})
     module.update({"facts_source": facts_source})
@@ -774,17 +798,17 @@ def load_cache_file(path, modules) -> dict:
 def load_cache_dir(path, modules) -> dict:
     log_info(f"Scanning for cache in {path} ...")
 
-    for f in os.listdir(fix_tilde_in_path(path)):
-        if f == '.' or f == '..':
+    for filename in os.listdir(fix_tilde_in_path(path)):
+        if filename == '.' or filename == '..':
             continue
-        if f.startswith('.') and not options["process_hidden_files"]:
+        if filename.startswith('.') and not options["process_hidden_files"]:
             continue
-        fp = f"{path}/{f}"
-        if os.path.isdir(fp):
-            # load_cache_dir(fp, modules)
+        qualified_filename = f"{path}/{filename}"
+        if os.path.isdir(qualified_filename):
+            # we dont search recursively for cache
             pass
-        elif os.path.isfile(fp) and CACHE_FILE_PATTERN.fullmatch(f):
-            load_cache_file(fp, modules)
+        elif os.path.isfile(qualified_filename) and CACHE_FILE_PATTERN.fullmatch(filename):
+            load_cache_file(qualified_filename, modules)
 
 
 def load_caches(pathes) -> dict:
@@ -842,7 +866,7 @@ def load_caches(pathes) -> dict:
 
 
 def cache_collection(collection):
-    url, html_source = get_url(f"https://docs.ansible.com/ansible/latest/collections/{collection.replace('.','/')}/index.html")
+    url, html_source = get_ansible_url(URL_ANSIBLE_COLLECTION_INDEX("latest", collection.replace('.','/')))
     if "Oops!" in html_source:
         # does not exist in source version
         log_error(f"can't find collection {collection} from {target_version()} online doc")    
@@ -942,26 +966,30 @@ class ErrorLog(Log):
     def __init__(self, file, uuid, message) -> None:
         super().__init__(file, uuid, "ERROR", message)    
 
-def yaml_add_comment(yml, key, level, message):
+def yaml_add_comment(yml, key, level, message, before = True):
     global options
     if options["no_logs_in_files"]:
         return
+    
+    message = f"{COMMENT_PREFIX} {level} : " + f"\n{COMMENT_PREFIX} {level} : ".join(message.split('\n'))
     if key is None:
-        yml.yaml_set_start_comment(f"{COMMENT_PREFIX} {level} : {message}")
+        yml.yaml_set_start_comment(message)
+    elif before:
+        yml.yaml_set_comment_before_after_key(key, before = message, indent = 0)
     else:
-        yml.yaml_set_comment_before_after_key(key, f"{COMMENT_PREFIX} {level} : {message}")
+        yml.yaml_set_comment_before_after_key(key, after = message, indent = 0, after_indent = 0)
 
-def log_and_comment_info(yml, key, logs, path, uuid, message):
+def log_and_comment_info(yml, key, logs, path, uuid, message, before = True):
     logs.append(InfoLog(path, uuid, message.split('\n')[0]))
-    yaml_add_comment(yml, key, "INFO", message)
+    yaml_add_comment(yml, key, "INFO", message, before)
 
-def log_and_comment_warning(yml, key, logs, path, uuid, message):
+def log_and_comment_warning(yml, key, logs, path, uuid, message, before = True):
     logs.append(WarnLog(path, uuid, message.split('\n')[0]))
-    yaml_add_comment(yml, key, "WARNING", message)
+    yaml_add_comment(yml, key, "WARNING", message, before)
 
-def log_and_comment_error(yml, key, logs, path, uuid, message):
+def log_and_comment_error(yml, key, logs, path, uuid, message, before = True):
     logs.append(ErrorLog(path, uuid, message.split('\n')[0]))
-    yaml_add_comment(yml, key, "ERROR", message)
+    yaml_add_comment(yml, key, "ERROR", message, before)
 
 
 def analyse_parameters(path, uuid, module, parent, key, params_source, params_target, logs, depth):
@@ -1084,7 +1112,7 @@ def analyse_parameters(path, uuid, module, parent, key, params_source, params_ta
                 log_and_comment_error(parent, key, logs, path, uuid, f"missing parameter `{p}` is required in {target_version()}")
             elif p_source is not None and p_source.get("default", None) != pl.get("default", None):
                 # we've got a parameter that is not specified with a default value that has changed
-                log_and_comment_warning(parent, key, logs, path, uuid, f"default value for missing parameter `{p}` changed from `{p_source.get('default', None)}` in version 2.9 to `{pl.get('default', None)}` in {target_version()} ")
+                log_and_comment_warning(parent, key, logs, path, uuid, f"default value for missing parameter `{p}` changed from `{p_source.get('default', None)}` in {source_version()} to `{pl.get('default', None)}` in {target_version()} ")
 
 
 def migrate_task(path, task, logs = [], depth=1):
@@ -1135,26 +1163,35 @@ def migrate_task(path, task, logs = [], depth=1):
             change_key(task, attr, module['fqcn'])
             attr = module['fqcn']
 
+        link_to_doc = False
         if isinstance(task[attr], str):
             # free form parameters
             if "param_target" in module and "free-form" not in module["param_target"]:
                 # latest version does not support free-form
-                log_and_comment_error(task, attr, logs, path, uuid, f"module {attr} does not support free-form parameters in {target_version()}") #\nPlease check documentation for latest version of module `{attr}`\nhttps://docs.ansible.com/ansible/latest/collections/{ module['fqcn'].replace('.','/') }_module.html")
+                link_to_doc = True
+                log_and_comment_error(task, attr, logs, path, uuid, f"module {attr} does not support free-form parameters in {target_version()}", True)
             else:
                 # don't handle free-form
                 log_and_comment_warning(task, attr, logs, path, uuid, f"Cannot perform migration checks on free-form parameters")
                 if module.get("breaking_params"):
-                    log_and_comment_warning(task, attr, logs, path, uuid, f"There are some breaking changes in the parameters from version 2.9 to {target_version()}") #.\nPlease check documentation for latest version of module `{attr}`\nhttps://docs.ansible.com/ansible/latest/collections/{ module['fqcn'].replace('.','/') }_module.html")
+                    link_to_doc = True
+                    log_and_comment_warning(task, attr, logs, path, uuid, f"There are some breaking changes in the parameters from {source_version()} to {target_version()}", True)
 
         elif module.get("params_source", {}) is not None or module.get("params_target", {}) is not None:
             analyse_parameters(path, uuid, task[attr], task, attr, module.get("params_source", {}), module.get("params_target", {}), logs, depth+1)
 
         if "register" in task:
             if module.get('breaking_return', False):
-                log_and_comment_warning(task, "register", logs, path, uuid, f"There is a breaking change in the returned values") #\nPlease check documentation for {target_version()} of module `{attr}`\nhttps://docs.ansible.com/ansible/latest/collections/{ module['fqcn'].replace('.','/') }_module.html")
+                link_to_doc = True
+                log_and_comment_warning(task, attr, logs, path, uuid, f"There is a breaking change in the returned values", True)
 
         if module.get("breaking_facts"):
-            log_and_comment_warning(task, None, logs, path, uuid, f"There is a breaking change in the facts returned.\nPlease check documentation for {target_version()} of module `{attr}`\nhttps://docs.ansible.com/ansible/latest/collections/{ module['fqcn'].replace('.','/') }_module.html")
+            link_to_doc = True
+            log_and_comment_warning(task, attr, logs, path, uuid, f"There is a breaking change in the facts returned", True)
+
+        if link_to_doc:
+            log_and_comment_warning(task, attr, logs, path, uuid, f"Please check documentation for {target_version()} of module `{attr}`\n{format_ansible_url(URL_ANSIBLE_COLLECTION, options['target_version'], module['fqcn'].replace('.','/'))}", True)
+
 
         break
 
@@ -1344,18 +1381,25 @@ def migrate_file(path, logs = []):
             outfile.write(result)
         return logs
 
+
+def is_to_be_ignored(filename):
+    for regex in options["ignore_file_patterns"]:
+        if regex.fullmatch(filename):
+            return True
+    return False
+
 def migrate_dir(path, logs = []):
     log_info(f"Scanning {path} ...")
-    for f in os.listdir(fix_tilde_in_path(path)):
-        if f == '.' or f == '..' or f == '.git' or MIGRATED_FILE_PATTERN.fullmatch(f) or CACHE_FILE_PATTERN.fullmatch(f):
+    for filename in os.listdir(fix_tilde_in_path(path)):
+        if is_to_be_ignored(filename):
             continue
-        if f.startswith('.') and not options["process_hidden_files"]:
+        if filename.startswith('.') and not options["process_hidden_files"]:
             continue
-        fp = f"{fix_tilde_in_path(path)}/{f}"
-        if os.path.isdir(fp):
-            migrate_dir(fp, logs)
-        elif os.path.isfile(fp) and ANSIBLE_FILE_PATTERN.fullmatch(f):
-            migrate_file(fp, logs)
+        qualified_filename = f"{fix_tilde_in_path(path)}/{filename}"
+        if os.path.isdir(qualified_filename):
+            migrate_dir(qualified_filename, logs)
+        elif os.path.isfile(qualified_filename) and ANSIBLE_FILE_PATTERN.fullmatch(filename):
+            migrate_file(qualified_filename, logs)
 
     return logs
  

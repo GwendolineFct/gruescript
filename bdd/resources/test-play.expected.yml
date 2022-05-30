@@ -1,8 +1,8 @@
 ---
-# *** MIG ***  WARNING : There is a breaking change in the facts returned.
-# Please check documentation for latest version of module `migration.test.realfacts`
-# https://docs.ansible.com/ansible/latest/collections/migration/test/realfacts_module.html
   - name: a simple task
+# *** MIG ***  WARNING : There is a breaking change in the facts returned
+# *** MIG ***  WARNING : Please check documentation for latest version of module `migration.test.realfacts`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/latest/collections/migration/test/realfacts_module.html
     migration.test.realfacts:
   - name: another one
 # *** MIG ***  ERROR : missing parameter `param1` is required in latest version
@@ -11,6 +11,8 @@
       param2: Don't go breaking my heart
 
   - name: and a last one
-    migration.test.registration:
 # *** MIG ***  WARNING : There is a breaking change in the returned values
+# *** MIG ***  WARNING : Please check documentation for latest version of module `migration.test.registration`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/latest/collections/migration/test/registration_module.html
+    migration.test.registration:
     register: somevar
