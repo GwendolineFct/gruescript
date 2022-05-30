@@ -550,7 +550,7 @@ def is_type_compatible_with(source, target) -> bool:
     if (source == "string" or source == "path") and (target == "string" or target == "path"):
         return True
         
-    if target == "dictionnary" and source != target:
+    if target == "dictionary" and source != target:
         return False
     
     if source.startswith("list(") and not target.startswith("list("):
@@ -1381,7 +1381,7 @@ def execute(exec_options={}):
         exit(1)
 
     if options["path"] is not None and options["source"] is not None:
-        log_error("path and source are mutualy exclusive")
+        log_error("path and source are mutually exclusive")
         exit(1)
 
     if len(options["generate_cache_for_collection"]) > 0:
