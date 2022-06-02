@@ -1,32 +1,23 @@
 ---
 modules:
   - name: vault_delete
-    fqcn: beys.vault.vault_delete
-    collection: beys.vault
-    params_source: 
-      - { name: "token", type: "string", required: true }
-      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
-      - { name: "secret_path", type: "string", required: true }
-      - { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }
-      - { name: "url", type: "string" }
-    return_source: 
-      - name: "secret"
-        type: "dictionary"
-        params:
-          - { name: engine, type: string }
-          - { name: secret, type: string }
-    params_target: 
-      - { name: "token", type: "string", required: true }
-      - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
-      - { name: "secret_path", type: "string", required: true }
-      - { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }
-      - { name: "url", type: "string" }
-    return_target: 
-      - name: "secret"
-        type: "dictionary"
-        params:
-          - { name: engine, type: string }
-          - { name: secret, type: string }
+    doc_2x:
+      name: vault_delete
+      params: 
+        - { name: "token", type: "string", required: true }
+        - { name: "secrets_engine", type: "string", choices: ["gitlab", "home"] }
+        - { name: "secret_path", type: "string", required: true }
+        - { name: "recurse", type: "boolean", default: "no", choices: ["no", "yes"] }
+        - { name: "url", type: "string" }
+      return: 
+        - name: "secret"
+          type: "dictionary"
+          params:
+            - { name: engine, type: string }
+            - { name: secret, type: string }
+    doc_5x:
+      name: beys.vault.vault_delete
+      same_as: doc_2x
 
   - name: vault_list
     fqcn: beys.vault.vault_list

@@ -6,7 +6,7 @@ Feature: Tasks identification
   Make sure we handle `block`, `rescue`, `always`
 
   Background: Set some flags common to most scenarios
-    Given I set option "cache_path" to list "./cache"
+    Given I set option "cache_path" to list "../cache"
       And I set flag "no_logs_in_files"
 
   Scenario: Recognize playbooks
@@ -37,7 +37,7 @@ Feature: Tasks identification
 
       When I migrate
 
-      Then logs must contain "Migrating as play file"
+      Then logs must contain "Migrating as a list of tasks"
 
   Scenario: Process tasks, pre_tasks, post_tasks and handlers in a playbook
     Given I have the following task

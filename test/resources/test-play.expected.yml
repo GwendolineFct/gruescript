@@ -1,0 +1,18 @@
+---
+  - name: a simple task
+# *** MIG ***  WARNING : There is a breaking change in the facts returned
+# *** MIG ***  WARNING : Please check version 5's documentation for module `migration.test.realfacts`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/5/collections/migration/test/realfacts_module.html
+    migration.test.realfacts:
+  - name: another one
+# *** MIG ***  ERROR : missing parameter `param1` is required in version 5
+    migration.test.breaking:
+# *** MIG ***  ERROR : unknown module parameter `param2` in version 5
+      param2: Don't go breaking my heart
+
+  - name: and a last one
+# *** MIG ***  WARNING : There is a breaking change in the returned values
+# *** MIG ***  WARNING : Please check version 5's documentation for module `migration.test.registration`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/5/collections/migration/test/registration_module.html
+    migration.test.registration:
+    register: somevar

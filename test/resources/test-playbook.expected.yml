@@ -14,7 +14,7 @@
         by doing so
     pre_tasks:
       - name: My first pre task
-# *** MIG ***  ERROR : module `obsolete` does not exist in latest version
+# *** MIG ***  ERROR : module `obsolete` does not exist in version 5
         obsolete:
           param1: I don't exist, what can I do ?
         when: false
@@ -30,19 +30,19 @@
     tasks:
       - name: a simple task
 # *** MIG ***  WARNING : There is a breaking change in the facts returned
-# *** MIG ***  WARNING : Please check documentation for latest version of module `migration.test.realfacts`
-# *** MIG ***  WARNING : https://docs.ansible.com/ansible/latest/collections/migration/test/realfacts_module.html
+# *** MIG ***  WARNING : Please check version 5's documentation for module `migration.test.realfacts`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/5/collections/migration/test/realfacts_module.html
         migration.test.realfacts:
     post_tasks:
       - name: My first post task
-# *** MIG ***  ERROR : missing parameter `param1` is required in latest version
+# *** MIG ***  ERROR : missing parameter `param1` is required in version 5
         migration.test.breaking:
-# *** MIG ***  ERROR : unknown module parameter `param2` in latest version
+# *** MIG ***  ERROR : unknown module parameter `param2` in version 5
           param2: Don't go breaking my heart
       - name: another post task
 # *** MIG ***  WARNING : There is a breaking change in the returned values
-# *** MIG ***  WARNING : Please check documentation for latest version of module `migration.test.registration`
-# *** MIG ***  WARNING : https://docs.ansible.com/ansible/latest/collections/migration/test/registration_module.html
+# *** MIG ***  WARNING : Please check version 5's documentation for module `migration.test.registration`
+# *** MIG ***  WARNING : https://docs.ansible.com/ansible/5/collections/migration/test/registration_module.html
         migration.test.registration:
         register: somevar
   # This is the end my friend

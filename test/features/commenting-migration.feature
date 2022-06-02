@@ -3,7 +3,8 @@ Feature: Commenting tasks migration
   We also check the migration rules
   
   Background: Set some flags common to most scenarios
-    Given I set option "cache_path" to list "./bdd/resources/test.cache.yml"
+    Given I set option "cache_path" to list "../tests/resources/test.cache.yml"
+      And I set incremental flag "verbosity" twice
 
   Scenario: Correctly migrate a 2.9 module to latest
     Given I have the following task
@@ -37,7 +38,7 @@ Feature: Commenting tasks migration
       Then it must be migrated as such
           """
             - name: obsolete module
-          # *** MIG ***  ERROR : module `obsolete` does not exist in latest version
+          # *** MIG ***  ERROR : module `obsolete` does not exist in version 5
               obsolete:
                 param1: "spam"
           """
@@ -57,7 +58,7 @@ Feature: Commenting tasks migration
           """
             - name: obsolete module
               # need to change this
-          # *** MIG ***  ERROR : module `obsolete` does not exist in latest version
+          # *** MIG ***  ERROR : module `obsolete` does not exist in version 5
               obsolete:
                 param1: "spam"  # what about eegs ?
           """
@@ -96,7 +97,7 @@ Feature: Commenting tasks migration
               migration.test.basic:
                 param1: "spam"
                 param2: "eggs"
-          # *** MIG ***  WARNING : Unknown parameter `param3`
+          # *** MIG ***  WARNING : Unknown module parameter `param3` in both versions
                 param3: "shrubbery"
           """
 
@@ -116,7 +117,7 @@ Feature: Commenting tasks migration
             - name: breaking module
               migration.test.breaking:
                 param1: "spam"
-          # *** MIG ***  ERROR : unknown module parameter `param2` in latest version
+          # *** MIG ***  ERROR : unknown module parameter `param2` in version 5
                 param2: "eggs"
           """
 
@@ -132,7 +133,7 @@ Feature: Commenting tasks migration
       Then it must be migrated as such
           """
             - name: breaking module
-          # *** MIG ***  ERROR : missing parameter `param1` is required in latest version
+          # *** MIG ***  ERROR : missing parameter `param1` is required in version 5
               migration.test.breaking:
           """
 
@@ -149,7 +150,7 @@ Feature: Commenting tasks migration
       Then it must be migrated as such
           """
             - name: default module
-          # *** MIG ***  WARNING : default value for missing parameter `param2` changed from `Knight` in version 2.9 to `None` in latest version
+          # *** MIG ***  WARNING : default value for missing parameter `param2` changed from `Knight` in version 2.9 to `None` in version 5
               migration.test.default:
                 param1: "spam"
           """
@@ -169,7 +170,7 @@ Feature: Commenting tasks migration
           """
             - name: types module
               migration.test.types:
-          # *** MIG ***  WARNING : type of parameter `param1` changed from `string` in version 2.9 to `integer` in latest version
+          # *** MIG ***  WARNING : type of parameter `param1` changed from `string` in version 2.9 to `integer` in version 5
                 param1: "spam"
           """
 
@@ -188,7 +189,7 @@ Feature: Commenting tasks migration
           """
             - name: choices module
               migration.test.choices:
-          # *** MIG ***  WARNING : Possible values for parameter `param1` have been restricted to a closed list of choices in latest version : [`witch`, `shruberry`]
+          # *** MIG ***  WARNING : Possible values for parameter `param1` have been restricted to a closed list of choices in version 5 : [`witch`, `shruberry`]
                 param1: "{{ some_var }}"
           """
 
@@ -206,7 +207,7 @@ Feature: Commenting tasks migration
           """
             - name: choices module
               migration.test.choices:
-          # *** MIG ***  WARNING : Some possible values for parameter `param2` have been removed in latest version. Allowed values are : [`spam`, `eggs`]
+          # *** MIG ***  WARNING : Some possible values for parameter `param2` have been removed in version 5. Allowed values are : [`spam`, `eggs`]
                 param2: "{{ some_var }}"
           """
 
@@ -227,8 +228,8 @@ Feature: Commenting tasks migration
             - name: choices module
               migration.test.choices:
                 param0: "spam"
-          # *** MIG ***  ERROR : value `spam` for parameter `param1` is not valid in latest version. Allowed values are : [`witch`, `shruberry`]
+          # *** MIG ***  ERROR : value `spam` for parameter `param1` is not valid in version 5. Allowed values are : [`witch`, `shruberry`]
                 param1: "spam"
-          # *** MIG ***  ERROR : value `foo` for parameter `param2` is not valid in latest version. Allowed values are : [`spam`, `eggs`]
+          # *** MIG ***  ERROR : value `foo` for parameter `param2` is not valid in version 5. Allowed values are : [`spam`, `eggs`]
                 param2: "foo"
           """          

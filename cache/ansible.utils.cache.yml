@@ -1,2 +1,59 @@
 ---
 modules:
+    - name: ansible.utils.cli_parse
+      doc_2x:
+        missing: true
+      doc_3x:
+        name: ansible.utils.cli_parse
+        params: [ { name: "command", type: "string" }, { name: "parser", required: true, type: "dictionary", params: [ { name: "command", type: "string" }, { name: "name", required: true, type: "string" }, { name: "os", type: "string" }, { name: "template_path", type: "string" }, { name: "vars", type: "dictionary" } ] }, { name: "set_fact", type: "string" }, { name: "text", type: "string" } ]
+        return: [ { name: "parsed", type: "dictionary" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(raw)" } ]
+      doc_4x:
+        name: ansible.utils.cli_parse
+        params: [ { name: "command", type: "string" }, { name: "parser", required: true, type: "dictionary", params: [ { name: "command", type: "string" }, { name: "name", required: true, type: "string" }, { name: "os", type: "string" }, { name: "template_path", type: "string" }, { name: "vars", type: "dictionary" } ] }, { name: "set_fact", type: "string" }, { name: "text", type: "string" } ]
+        return: [ { name: "parsed", type: "dictionary" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+      doc_5x:
+        name: ansible.utils.cli_parse
+        params: [ { name: "command", type: "string" }, { name: "parser", required: true, type: "dictionary", params: [ { name: "command", type: "string" }, { name: "name", required: true, type: "string" }, { name: "os", type: "string" }, { name: "template_path", type: "string" }, { name: "vars", type: "dictionary" } ] }, { name: "set_fact", type: "string" }, { name: "text", type: "string" } ]
+        return: [ { name: "parsed", type: "dictionary" }, { name: "stdout", type: "string" }, { name: "stdout_lines", type: "list(string)" } ]
+    - name: ansible.utils.fact_diff
+      doc_2x:
+        missing: true
+      doc_3x:
+        name: ansible.utils.fact_diff
+        params: [ { name: "after", required: true, type: "raw" }, { name: "before", required: true, type: "raw" }, { name: "plugin", type: "dictionary", default: "{}", params: [ { name: "name", type: "string", default: "ansible.utils.native" }, { name: "vars", type: "dictionary", default: "{}", params: [ { name: "skip_lines", type: "list(raw)" } ] } ] } ]
+        return: [ { name: "diff_lines", type: "list(raw)" }, { name: "diff_text", type: "string" } ]
+      doc_4x:
+        name: ansible.utils.fact_diff
+        params: [ { name: "after", required: true, type: "raw" }, { name: "before", required: true, type: "raw" }, { name: "plugin", type: "dictionary", default: "{}", params: [ { name: "name", type: "string", default: "ansible.utils.native" }, { name: "vars", type: "dictionary", default: "{}", params: [ { name: "skip_lines", type: "list(string)" } ] } ] } ]
+        return: [ { name: "diff_lines", type: "list(string)" }, { name: "diff_text", type: "string" } ]
+      doc_5x:
+        name: ansible.utils.fact_diff
+        params: [ { name: "after", required: true, type: "raw" }, { name: "before", required: true, type: "raw" }, { name: "plugin", type: "dictionary", default: "{}", params: [ { name: "name", type: "string", default: "ansible.utils.native" }, { name: "vars", type: "dictionary", default: "{}", params: [ { name: "skip_lines", type: "list(string)" } ] } ] } ]
+        return: [ { name: "diff_lines", type: "list(string)" }, { name: "diff_text", type: "string" } ]
+    - name: ansible.utils.update_fact
+      doc_2x:
+        missing: true
+      doc_3x:
+        name: ansible.utils.update_fact
+        params: [ { name: "updates", required: true, type: "list(raw)", params: [ { name: "path", required: true, type: "string" }, { name: "value", required: true, type: "raw" } ] } ]
+      doc_4x:
+        name: ansible.utils.update_fact
+        params: [ { name: "updates", required: true, type: "list(dictionary)", params: [ { name: "path", required: true, type: "string" }, { name: "value", required: true, type: "raw" } ] } ]
+      doc_5x:
+        name: ansible.utils.update_fact
+        params: [ { name: "updates", required: true, type: "list(dictionary)", params: [ { name: "path", required: true, type: "string" }, { name: "value", required: true, type: "raw" } ] } ]
+    - name: ansible.utils.validate
+      doc_2x:
+        missing: true
+      doc_3x:
+        name: ansible.utils.validate
+        params: [ { name: "criteria", required: true, type: "raw" }, { name: "data", required: true, type: "raw" }, { name: "engine", type: "string", default: "ansible.utils.jsonschema" } ]
+        return: [ { name: "errors", type: "list(raw)" }, { name: "msg", type: "string" } ]
+      doc_4x:
+        name: ansible.utils.validate
+        params: [ { name: "criteria", required: true, type: "raw" }, { name: "data", required: true, type: "raw" }, { name: "engine", type: "string", default: "ansible.utils.jsonschema" } ]
+        return: [ { name: "errors", type: "list(string)" }, { name: "msg", type: "string" } ]
+      doc_5x:
+        name: ansible.utils.validate
+        params: [ { name: "criteria", required: true, type: "raw" }, { name: "data", required: true, type: "raw" }, { name: "engine", type: "string", default: "ansible.utils.jsonschema" } ]
+        return: [ { name: "errors", type: "list(string)" }, { name: "msg", type: "string" } ]

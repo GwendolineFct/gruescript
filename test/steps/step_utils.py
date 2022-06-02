@@ -1,6 +1,4 @@
 import difflib
-import io
-import sys
 
 def diff(expected, actual):
     green = '\x1b[32m'

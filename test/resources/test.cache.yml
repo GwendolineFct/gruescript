@@ -1,0 +1,115 @@
+---
+modules:
+  - name: obsolete
+    doc_2x:
+      name: obsolete
+      params:
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+
+  - name: basic
+    doc_2x:
+      name: basic
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+    doc_5x:
+      name: migration.test.basic
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+
+  - name: freeform
+    doc_2x:
+      name: freeform
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+        - { name: "free-form", type: "raw" }
+    doc_5x:
+      name: migration.test.freeform
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+        - { name: "free-form", type: "raw" }
+
+  - name: breaking
+    doc_2x:
+      name: breaking
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+    doc_5x:
+      name: migration.test.breaking
+      params: 
+        - { name: "param1", type: "string", required: True }
+
+  - name: default
+    doc_2x:
+      name: default
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string", default: "Knight" }
+    doc_5x:
+      name: migration.test.default
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string", default: "None" }
+
+  - name: choices
+    doc_2x:
+      name: choices
+      params: 
+        - { name: "param0", type: "string", choices: ["spam", "eggs"] }
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string", choices: ["foo", "bar", "spam", "eggs"] }
+    doc_5x:
+      name: migration.test.choices
+      params: 
+        - { name: "param0", type: "string", choices: ["spam", "eggs"] }
+        - { name: "param1", type: "string", choices: ["witch", "shruberry"] }
+        - { name: "param2", type: "string", choices: ["spam", "eggs"] }
+
+  - name: types
+    doc_2x:
+      name: types
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+    doc_5x:
+      name: migration.test.types
+      params: 
+        - { name: "param1", type: "integer" }
+        - { name: "param2", type: "dictionary" }
+
+  - name: registration
+    doc_2x:
+      name: registration
+      params: 
+        - { name: "param1", type: "string" }
+        - { name: "param2", type: "string" }
+      return:
+        - { name: "result1", type: "string" }
+        - { name: "result2", type: "string" }
+    doc_5x:
+      name: migration.test.registration
+      params: 
+        - { name: "param1", type: "integer" }
+        - { name: "param2", type: "dictionary" }
+      return:
+        - { name: "result1", type: "string" }
+
+  - name: realfacts
+    doc_2x:
+      name: realfacts
+      params: 
+        - { name: "param1", type: "boolean" }
+      facts:
+        - { name: "result1", type: "string" }
+        - { name: "result2", type: "string" }
+    doc_5x:
+      name: migration.test.realfacts
+      params: 
+        - { name: "param1", type: "boolean" }
+      facts:
+        - { name: "result1", type: "string" }

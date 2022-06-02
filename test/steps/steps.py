@@ -1,9 +1,8 @@
 import os
 import shutil
 from behave import *
-from behave.log_capture import capture
-from ansible_migrator import execute, log_always
-from utils import cleanup_indent, diff
+from main import *
+from step_utils import cleanup_indent, diff
 
 
 @given('I have folder "{folder}"')
@@ -62,6 +61,24 @@ def step_impl(context, file, folder):
 @given('I set flag "{flag}"')
 def step_impl(context, flag):
     context.migration_args[flag] = True
+
+@given('I set incremental flag "{flag}"')
+def step_impl(context, flag):
+    if flag not in context.migration_args:
+        context.migration_args[flag] = 0
+    context.migration_args[flag] += 1
+
+@given('I set incremental flag "{flag}" twice')
+def step_impl(context, flag):
+    if flag not in context.migration_args:
+        context.migration_args[flag] = 0
+    context.migration_args[flag] += 2
+
+@given('I set incremental flag "{flag}" {count} times')
+def step_impl(context, flag, count):
+    if flag not in context.migration_args:
+        context.migration_args[flag] = 0
+    context.migration_args[flag] += int(count)
 
 @given('I set option "{option}" to "{value}"')
 def step_impl(context, option, value):
@@ -160,11 +177,13 @@ def step_impl(context):
     expected = cleanup_indent(context.text)
 
     if actual != expected:
-        print("******************************************")
+        print("--------========[ WANTED ]========--------")
+        print(expected)
+        print("--------========[ ACTUAL ]========--------")
         print(actual)
-        print("******************************************")
+        print("--------========[  DIFF  ]========--------")
         print(diff(actual, expected))
-        print("******************************************")
+        print("--------========~~~~~~~~~~========--------")
 
     assert actual == expected
 
